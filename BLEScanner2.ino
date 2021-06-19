@@ -26,35 +26,10 @@ BLEScan* pBLEScan;
 // https://github.com/Xinyuan-LilyGO/LilyGo-W5500-Lite/tree/master/libdeps/esp8266-oled-ssd1306
 // installed from Arduino IDE ThingPulse, Fabrice Weinberg v 4.2.0
 SSD1306Wire  display(0x3C, D3, D5);
-extern void PRINT(const char *x);
-extern void PRINTLN(const char *x);
-extern void PRINTFN(const char *x, const char *y);
-extern void PRINTF1(const char *x, int y);
-extern void PRINTFN2(const char *x, const char *y, int z);
-extern void PRINTLNI(int i);
-#define LEADING (12)
-
-int lineno = 0;
-int colno = 0;
-
-void clear() {
-  display.clear();
-  lineno = 0;
-  colno = 0;
-}
-
-void newline() {
-  if (++lineno == 5) {
-    delay(500);
-    clear();
-  } else {
-    colno = 0;
-  }
-}
-
 
 // Can't have both callback and returned list, and callback doesn't seem
-// to work well with the display.  So just Serial.
+// to work well with the display. So just Serial. And turn it off
+// completely since they don't build an array if you have a callback.
 #if 0
 class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
     void onResult(BLEAdvertisedDevice advertisedDevice) {
@@ -63,64 +38,31 @@ class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
 };
 #endif
 
-
-// todo: this print stuff has gotten out of hand
-
-void PRINT(const char *x) {
-  Serial.print(x);
-  display.drawStringMaxWidth(colno, lineno *16, 96, x);
-  // todo line wrapp effect on lineno indeterminate since it wraps at hyphens and spaces
-  colno += display.getStringWidth(x);	
+void SCREEN(char buf[]) {
+  Serial.println(buf);
+  display.clear();
+  display.drawStringMaxWidth(0, 0, 96, buf);
   display.display();
-  delay(500);
+  delay(2000);
+
 }
 
-void PRINTLN(const char *x) {
-  Serial.println(x);
-  display.drawStringMaxWidth(colno, lineno * 16, 96, x);
-  newline();
-  display.display();
-  delay(500);
-}
-
-void PRINTLNI(int i) {
-  char buf[16];
-  snprintf(buf, 16, "%d", i);
-  PRINTLN(buf);
-}
-
-
-void PRINTFN(const char *x, const char *y) {
-  Serial.printf(x, y);
-  char buf[64];
-  snprintf(buf, 64, x, y);
-  display.drawStringMaxWidth(colno, lineno * 16, 96, buf);
-  // Display it on the screen
-  display.display();
-  delay(500);
-  newline();
-}
-
-void PRINTFN1(const char *x, int y) {
-  Serial.printf(x, y);
-  char buf[64];
-  snprintf(buf, 64, x, y);
-  display.drawStringMaxWidth(colno, lineno * 16, 96, buf);
-  // Display it on the screen
-  display.display();
-  delay(500);
-  newline();
-}
-
-void PRINTFN2(const char *x, const char *y, int z) {
-  Serial.printf(x, y);
+void SCREEN_I(int idx, const char *fmt, int i) {
   char buf[128];
-  snprintf(buf, 64, x, y, z);
-  display.drawStringMaxWidth(colno, lineno * 16, 96, buf);
-  // Display it on the screen
-  display.display();
-  delay(500);
-  newline();
+  snprintf(buf, 128, fmt, idx, i);
+  SCREEN(buf);
+}
+
+void SCREEN_SI(int idx, const char *fmt, const char *s, int i) {
+  char buf[128];
+  snprintf(buf, 128, fmt, idx, s, i);
+  SCREEN(buf);
+}
+
+void SCREEN_S(int idx, const char *fmt, const char *s) {
+  char buf[128];
+  snprintf(buf, 128, fmt, idx, s);
+  SCREEN(buf);
 }
 
 void setup() {
@@ -128,17 +70,15 @@ void setup() {
 
   display.init();
   display.setContrast(255);
-  clear();
+  display.clear();
   display.setFont(ArialMT_Plain_10);
   display.setTextAlignment(TEXT_ALIGN_LEFT);
-  PRINTFN("Startup: %s\n", "foo");
   display.display();
-  delay(2000);
-
-  PRINTFN("Scanning...: %s\n", "bar");
-
+  SCREEN("[-] Startup: BLEScanner2.ino");
+  SCREEN("[-] Scanning: BT");
   BLEDevice::init("");
   pBLEScan = BLEDevice::getScan(); //create new scan
+  // Don't use callbacks since we want to need to wait to use the display till after the data loads
 #if 0
     pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
 #endif
@@ -147,50 +87,66 @@ void setup() {
   pBLEScan->setWindow(99);  // less or equal setInterval value
 }
 
-
 void printDevice(BLEScanResults foundDevices, int i) {
-  BLEAdvertisedDevice d = foundDevices.getDevice(i);
-  
-  PRINTFN2("%s: RSSI %d\n", d.getAddress().toString().c_str(), d.getRSSI());
+  BLEAdvertisedDevice dev = foundDevices.getDevice(i);
 
-  if (d.haveName()) {
-    PRINTFN("Name: %s", d.getName().c_str());
+  SCREEN_SI(i, "[%d] %s: RSSI %d\n", dev.getAddress().toString().c_str(), dev.getRSSI());
+  SCREEN_S(i, "[%d] %s", dev.toString().c_str());
+#if 1
+  printDeviceDetails(i, dev);
+#endif
+}
+
+struct blatano {
+  uint8_t signature[8];
+  uint8_t rssi;
+  char name[16];
+  uint8_t appearance;
+  uint8_t mdp[16];
+  uint8_t serviceUUID[16];
+  uint8_t txpower;
+};
+
+#include <CircularBuffer.h>
+
+CircularBuffer<struct blatano,32> correspondents;
+
+void printDeviceDetails(int i, BLEAdvertisedDevice dev) {
+  SCREEN_SI(i, "[%d] %s: RSSI %d\n", dev.getAddress().toString().c_str(), dev.getRSSI());
+
+  if (dev.haveName()) {
+    SCREEN_S(i, "[%d] Name: %s", dev.getName().c_str());
   }
 
-  if (d.haveAppearance()) {
-    PRINTFN1("Appearance: %d", d.getAppearance());
+  if (dev.haveAppearance()) {
+    SCREEN_I(i, "[%d] Appearance: %d", dev.getAppearance());
   }
 
-  if (d.haveManufacturerData()) {
-    std::string md = d.getManufacturerData();
-    uint8_t *mdp = (uint8_t *)d.getManufacturerData().data();
+  if (dev.haveManufacturerData()) {
+    std::string md = dev.getManufacturerData();
+    uint8_t *mdp = (uint8_t *)dev.getManufacturerData().data();
     char *pHex = BLEUtils::buildHexData(nullptr, mdp, md.length());
-    PRINTFN("ManufacturerData: %s", pHex);
+    SCREEN_S(i, "[%d] ManufacturerData: %s", pHex);
     free(pHex);
   }
 
-  if (d.haveServiceUUID()) {
-    PRINTFN("ServiceUUID: %s", d.getServiceUUID().toString().c_str());
+  if (dev.haveServiceUUID()) {
+    SCREEN_S(i, "[%d] ServiceUUID: %s", dev.getServiceUUID().toString().c_str());
   }
 
-  if (d.haveTXPower()) {
-    PRINTFN1("TxPower: %d", (int)d.getTXPower());
+  if (dev.haveTXPower()) {
+    SCREEN_I(i, "[%d] TxPower: %d", (int)dev.getTXPower());
   }
 }
 
 void loop() {
-  delay(2000);
   // put your main code here, to run repeatedly:
   BLEScanResults foundDevices = pBLEScan->start(scanTime, false);
-  clear();
-  PRINT("Devices found: ");
-  PRINTLNI(foundDevices.getCount());
-  delay(2000);
-  clear();
+  SCREEN_I(-1, "[%d], Devices found: %d", foundDevices.getCount());
   for (int i = 0; i < foundDevices.getCount(); i++)  {
     printDevice(foundDevices, i);
   }
   // delete results fromBLEScan buffer to release memory
   pBLEScan->clearResults();   
-  delay(2000);
+  display.clear();
 }
