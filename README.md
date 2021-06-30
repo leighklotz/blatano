@@ -127,7 +127,9 @@ WayBack Machine (Yay, Brewster!)
 - ![](docs/robots_256parts.gif)
 - ![](docs/robots_samples.gif)
 
-# References These references consist of a near record of my browsing
+# References
+
+These references consist of a near record of my browsing
 history during this project, plus a few select links.
 
 
