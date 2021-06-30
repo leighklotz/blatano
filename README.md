@@ -68,6 +68,7 @@ Bluetooth MAC address every 20 minutes.
 # Representation
 
 Recognized entities are given a 32-bit number, which is then the
+"memory" of the entity.
 
 To turn the sensory data into a 32-bit number, I used the CRC32C
 algorithm to turn any amount of data into a 32-bit number.  In this
@@ -122,10 +123,21 @@ for anybody.
 # Current status
 Next stop: Drawing implementation. Here are samples copied from
 Jake.dk's copy of Dave Bollinger's illustrations, via Archive.org
-WayBack Machine (Yay, Brewster!)
+WayBack Machine (Yay, Brewster!) See references for links to originals.
 
-- ![](docs/robots_256parts.gif)
-- ![](docs/robots_samples.gif)
+## All robot parts, 0x000000 to 0xffffff by increments of 0x010101
+![](docs/robots_256parts.gif)
+
+## Some sample robots
+![](docs/robots_samples.gif)
+
+These robots are 7x11 pixels, and we have a roughly 64x64 pixel area
+to fill. Scaling 5x to 35x55 seems the best fit, though 4x might be
+easier to implement in some ways.  The above diagrams contain all
+256*3 robot parts, so just reading those as is and drawing the dots 5x
+isn't necessarily a bad approach, bitblt notwithstanding.  On the
+other hand, drawing each bit in the template as a 5x square isn't hard
+either, and no need to make a big table or store an image on Flash.
 
 # References
 
