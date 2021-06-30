@@ -1,12 +1,25 @@
-# Steve Harrison Birthday
+# Blatano - A mid-21st Century Modern 
+
+Blatano is a mid-21st Century Modern inhabitant of boundary between
+our physical and digital space.. It knows only what it senses in the
+environment around it, and it recognizes fellow digital denizens by
+their trails, and gives them names.
+
+Blatano could learn more, and it could benefit from more
+senses: WiFi for a sense of place, light brightness to know when it's
+dark, Lidar distance to know if something is approaching, acceleration
+to determine orientation, an internal clock for tracking time.  Feel
+free to experiment and add some of these senses.
+
+Enjoy Blatano.
 
 # References
-- [arduino esp32 adafruit ssd1306 - Google Search](https://www.google.com/search?q=arduino+esp32+adafruit+ssd1306)
+- [Arduino ESP32 Adafruit SSD1306 - Google Search](https://www.google.com/search?q=arduino+esp32+adafruit+ssd1306)
 - [ESP32 OLED Display with Arduino IDE | Random Nerd Tutorials](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/)
 - [In-Depth: Interface OLED Graphic Display Module with ESP32](https://lastminuteengineers.com/oled-display-esp32-tutorial/)
 - [Adafruit SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
 - [ESP8266 and ESP32 OLED driver for SSD1306 displays - Arduino Reference](https://www.arduino.cc/reference/en/libraries/esp8266-and-esp32-oled-driver-for-ssd1306-displays/)
-- [LILYGO®Ttgo t lite w5500 esp32 chip principal ssd1306 0.96 Polegada oled tipo c placa de desenvolvimento de programação usb|Circuitos| - AliExpress](https://pt.aliexpress.com/item/4001252326111.html)
+- [LILYGO® TTGO T LITE W5500 ESP32 SSD1306 0.96 - AliExpress](https://pt.aliexpress.com/item/4001252326111.html)
 - [ESP8266 OLED SSD1306](https://github.com/Xinyuan-LilyGO/LilyGo-W5500-Lite/tree/master/libdeps/esp8266-oled-ssd1306)
 - [ThingPulse esp8266-oled-ssd1306](https://github.com/ThingPulse/esp8266-oled-ssd1306)
 - [ESP32_BLE_Arduino BLE_Scan.ino](https://github.com/nkolban/ESP32_BLE_Arduino/blob/master/examples/BLE_scan/BLE_scan.ino)
@@ -47,9 +60,7 @@
 - [python draw small robot icons](https://www.google.com/search?q=python draw small robot icons)
 - [Robot icons | Stock vector | Colourbox](https://www.colourbox.com/vector/robot-icons-vector-31838991)
 - [Turtle examples](https://michael0x2a.com/blog/turtle-examples)
-- [turtle — Turtle graphics — Python 3.9.6 documentation](https://docs.python.org/3/library/turtle.html)
-- [turtle — Turtle graphics — Python 3.8.5 documentation](https://docs.python.org/release/3.8.5/library/turtle.html#turtle.setworldcoordinates)
-- [turtle — Turtle graphics — Python 3.8.5 documentation](https://docs.python.org/release/3.8.5/library/turtle.html#turtle.bye)
+- [Turtle — Turtle graphics — Python 3.9.6 documentation](https://docs.python.org/3/library/turtle.html)
 - [Practical Cryptography](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
 - [Python random.choice() to choose random item from list, String, array](https://pynative.com/python-random-choice/)
 - [python convert strings into sets of characters - Stack Overflow](https://stackoverflow.com/questions/13782725/python-convert-strings-into-sets-of-characters)
@@ -83,7 +94,7 @@
 - [c - How to wrap printf() into a function or macro? - Stack Overflow](https://stackoverflow.com/questions/20639632/how-to-wrap-printf-into-a-function-or-macro)
 - [SSD1306UiDemo.ino](https://github.com/ThingPulse/esp8266-oled-ssd1306/blob/master/examples/SSD1306UiDemo/SSD1306UiDemo.ino)
 - [pagan](https://github.com/daboth/pagan)
-- [.icons](https://github.com/tcatm/dotfiles/tree/master/xmobar/.icons)
+- [xmobar.icons](https://github.com/tcatm/dotfiles/tree/master/xmobar/.icons)
 - [github pixel avatars - Google Search](https://www.google.com/search?q=github+pixel+avatars)
 - [gblocks](https://github.com/viveketic/gblocks)
 - [c - memory address of a struct data item - Stack Overflow](https://stackoverflow.com/questions/26147744/memory-address-of-a-struct-data-item)
