@@ -117,7 +117,7 @@ from a 24-bit number by using symmetry, a simple template, and a
 lightweight edge-tracing algorithm. Unfortunately, the code is not
 useful (ancient C#), but the algorithm is appealing. A 4-byte code
 giving 4-part robots would be a better fit than the 3-part robot, but
-the loss is not that great, and 2^24 robot drawings ought to be enough
+the loss is not that great, and 2<sup>24</sup> robot drawings ought to be enough
 for anybody.
 
 # Current status
