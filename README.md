@@ -1,15 +1,15 @@
 # Blatano - A mid-21st Century Modern 
 
-Blatano is a mid-21st Century Modern inhabitant of boundary between
-our physical and digital space.. It knows only what it senses in the
-environment around it, and it recognizes fellow digital denizens by
-their trails, and shows you their names (as best can be rendered in
-our tongue), and a drawing. Eschewing Dr. Seuss's "Thing 1, Thing 2"
-approach, Blatano uses a way of naming entities that distills all its
-knowledge down into a few bits of information, which it then further
-illustrates for us as a drawing and a few flickering bits of
-variations. Similarly, the drawing may not resemble you or your smart
-refrigerator, but rest if you see a name and robot drawing
+Blatano is a mid-21st Century Modern inhabitant of the boundary
+between our physical and digital space. It knows only what it senses
+in the environment around it, and it recognizes fellow digital
+denizens by their trails, and shows you their names (as best can be
+rendered in our tongue), and a drawing. Eschewing Dr. Seuss's "Thing
+1, Thing 2" approach, Blatano uses a way of naming entities that
+distills all its knowledge down into a few bits of information, which
+it then further illustrates for us as a drawing and a few flickering
+bits of variations. Similarly, the drawing may not resemble you or
+your smart refrigerator, but rest if you see a name and robot drawing
 consistently associated with your presence, rest assured it is an
 accurate representation of how Blatano perceives you.
 
@@ -121,7 +121,10 @@ better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
 
 # Current status
-Next stop: Drawing implementation. Here are samples copied from
+Next stop: Drawing implementation.
+
+# Drawing Implementation
+Here are samples copied from
 Jake.dk's copy of Dave Bollinger's illustrations, via Archive.org
 WayBack Machine (Yay, Brewster!) See references for links to originals.
 
