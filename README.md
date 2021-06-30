@@ -139,6 +139,34 @@ isn't necessarily a bad approach, bitblt notwithstanding.  On the
 other hand, drawing each bit in the template as a 5x square isn't hard
 either, and no need to make a big table or store an image on Flash.
 
+# Physical Embodiement
+
+I wanted some type of Brazil-like TV display with a magnifying lens in
+front. During the project, some small 3D printed TV holders for ESP32
+with display turned up, but since I still can't do 3D printing, I
+can't go that route &emdash; it reduces to a previously unsolved
+problem.
+
+I ordered some surplus lenses, trying to find some of the surplus
+companies I remembered from years (decades?) ago. Edmund is reliable
+but pricey, but I founmd a place called Surplus Shed that had a good
+deal on small viewfinder-like lenses. When the credit card charge
+came, I was sad to see the name of the seller was Wollensak. I didn't
+wind up using the lenses, and I hope nobody ever wants a viewfinder
+lens for some old camera that time forgot and Wollensak still had in stock.
+
+I settled on a 35mm slide viewer, Focal brand, from a craft seller.
+So far I've avoided modifying it, but eventually I will need to
+provide cable egress. Two AA slots are available, but I'd prefer to go
+with external USB cable.  For this, I have a USB-C internal adapter
+and a short USB-C to USB-A cable.
+
+For display and ESP32 CPU, I checked out to see what Adafruit has, but at
+the time nothing this small. It doesn't quite fit in the slide viewer
+case, at least not with the USB programming cable, so I have only
+mocked it up a bit.  Once the code is done, I'll solder the USB power
+socket in place and move from there.
+
 # References
 
 These references consist of a near record of my browsing
