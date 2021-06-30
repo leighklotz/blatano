@@ -1,6 +1,8 @@
 /*
+ * Leigh Klotz <klotz@klotz.me> ESP32 Bluetooth friend finder
    Based on Neil Kolban example for IDF: https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleScan.cpp
    Ported to Arduino ESP32 by Evandro Copercini
+
 */
 
 #include <Arduino.h>
@@ -13,13 +15,11 @@
 #include <BLEUtils.h>
 #include <BLEScan.h>
 #include <BLEAdvertisedDevice.h>
+#include <BLEUUID.h>
 
-#include <CircularBuffer.h>
 #include <Arduino_CRC32.h>
 
 #include "BLEScanner2.h"
-#include "wifixbm.h"
-#include "bluetoothxbm.h"
 
 int scanTime = 5; //In seconds
 BLEScan* pBLEScan;
@@ -32,30 +32,24 @@ BLEScan* pBLEScan;
 // installed from Arduino IDE ThingPulse, Fabrice Weinberg v 4.2.0
 SSD1306Wire  display(0x3C, D3, D5);
 
-extern void test_crc();
-extern void setup_crc();
-extern char *robot_named_n(char *buf, uint32_t n);
+enum servicetype_t getWellKnownServiceType(BLEAdvertisedDevice *d);
+BLEUUID COVID_TRACKER_SERVICEUUID = BLEUUID("0000fd6f-0000-1000-8000-00805f9b34fb");
+BLEUUID GATT_SERVICEUUID = BLEUUID("e20a39f4-73f5-4bc4-a12f-17d1ad07a961");
+BLEUUID FITBIT_CHARGE_3_SERVICEUUID = BLEUUID("adabfb00-6e7d-4601-bda2-bffaa68956ba");
 
 const int TEXT_FIRST_LINE = 8;
 const int LEADING = 12;
-
 char linebuf[64];
-
 Arduino_CRC32 crc32;
 
-// Can't have both callback and returned list, and callback doesn't seem
-// to work well with the display. So just Serial. And turn it off
-// completely since they don't build an array if you have a callback.
-#if 0
-class MyAdvertisedDeviceCallbacks: public BLEAdvertisedDeviceCallbacks {
-    void onResult(BLEAdvertisedDevice advertisedDevice) {
-      Serial.println("Advertised Device: %s \n", advertisedDevice.toString().c_str());
-    }
-};
-#endif
 
 #define PRINTF(s_, ...) snprintf(linebuf, 64, (s_), ##__VA_ARGS__); Serial.println(linebuf)
 
+extern void test_crc();
+extern void setup_crc();
+extern char *robot_named_n(char *buf, uint32_t n);
+extern void enhance(blatano_t *blat);
+extern void printDevice(BLEAdvertisedDevice d);
 
 void setup() {
   Serial.begin(115200);
@@ -71,7 +65,7 @@ void setup() {
 
   PRINTF("Setup CRC");
   setup_crc();
-#ifdef TEST
+#if 0
   PRINTF("Testing CRC");
   test_crc();
   PRINTF("CRC Test Done");
@@ -80,38 +74,32 @@ void setup() {
   PRINTF("Robot names done");
 #endif
   
-  delay(500);
-  PRINTF("Scanning\n");
+  PRINTF("Scanning");
   BLEDevice::init("Blatano_0x00");
   pBLEScan = BLEDevice::getScan(); //create new scan
-#if 0
-    pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
-#endif
   pBLEScan->setActiveScan(true); //active scan uses more power, but get results faster
   pBLEScan->setInterval(60);
   pBLEScan->setWindow(59);  // less or equal setInterval value
 }
 
-// __attribute__((packed))
-
-
-#define N_BLATANI 16
-CircularBuffer<blatano_t,16> blatani;
-
-void enhance(blatano_t *blat);
-
-extern void printDevice(BLEAdvertisedDevice d);
-
-void queueDevice(BLEScanResults *foundDevices, int i, uint8_t *pdup_index) {
-  blatano_t blat;
+void processDevice(blatano_t *pblat, BLEScanResults *foundDevices, int i, uint8_t *pdup_index) {
   BLEAdvertisedDevice d = foundDevices->getDevice(i);
-  Serial.printf("Advertised Device: %s \n", d.toString().c_str());
+#if 1
   printDevice(d);
-  convert(&d, &blat, pdup_index);
-  enhance(&blat);
-  blatani.push(blat);
-  PRINTF("%d %X %s\n", i, blat.crc32, blat.name);
+#endif
+  convert(&d, pblat, pdup_index);
+  enhance(pblat);
 }
+
+enum servicetype_t getWellKnownServiceType(BLEAdvertisedDevice *d) {
+  BLEUUID serviceUUID = d->getServiceUUID();
+  servicetype_t r = UNKNOWN;
+  if (serviceUUID.equals(COVID_TRACKER_SERVICEUUID)) r = COVID_TRACKER;
+  else if (serviceUUID.equals(GATT_SERVICEUUID)) r = GATT;
+  else if (serviceUUID.equals(FITBIT_CHARGE_3_SERVICEUUID)) r = FITBIT_CHARGE_3;
+  return r;
+}
+
 
 #if 1
 /**
@@ -133,24 +121,34 @@ const char* addressTypeToString(esp_ble_addr_type_t type) {
 }
 
 void printDevice(BLEAdvertisedDevice d) {
-  PRINTF("%s: RSSI %d\n", d.getAddress().toString().c_str(), d.getRSSI());
+  PRINTF("* %s", d.getAddress().toString().c_str());
+
+  char *service_type_names[] = { "UNKNOWN", "COVID_TRACKER", "GATT", "FITBIT_CHARGE_3" };
+  int s_type = (int)getWellKnownServiceType(&d);
+  if (s_type < sizeof(service_type_names) / sizeof (char *)) {
+    PRINTF("- ServiceType %d %s", s_type, service_type_names[s_type]);
+  } else {
+    PRINTF("- ServiceType %d [offlist]", s_type);
+  }
+
+  PRINTF("- RSSI %d", d.getRSSI());
 
   PRINTF("- Address Type = 0x%x %s", ((uint8_t)(d.getAddressType())),
 	 addressTypeToString(d.getAddressType()));
 
   if (d.haveName()) {
-    PRINTF("- Name: %s\n", d.getName().c_str());
+    PRINTF("- Name: %s", d.getName().c_str());
   }
 
   if (d.haveAppearance()) {
-    PRINTF("- Appearance: %d\n", d.getAppearance());
+    PRINTF("- Appearance: %d", d.getAppearance());
   }
 
   if (d.haveManufacturerData()) {
     std::string md = d.getManufacturerData();
     uint8_t *mdp = (uint8_t *)d.getManufacturerData().data();
     char *pHex = BLEUtils::buildHexData(nullptr, mdp, md.length());
-    PRINTF("- ManufacturerData: %s\n", pHex);
+    PRINTF("- ManufacturerData: %s", pHex);
     free(pHex);
   }
 
@@ -159,14 +157,14 @@ void printDevice(BLEAdvertisedDevice d) {
   }
 
   if (d.haveTXPower()) {
-    PRINTF("- TxPower: %d\n", (int)d.getTXPower());
+    PRINTF("- TxPower: %d", (int)d.getTXPower());
   }
 }
 #endif
 
 
 #define BLAT_STRING(blat_field, s) memcpy(blat_field, s.data(), min(s.length(), sizeof(blat_field)))
-#define BLAT_DATA(blat_field, data) memcpy(blat_field, data, min(sizeof(data), sizeof(blat_field)))
+#define BLAT_DATA(blat_field, data) memcpy(blat_field, data, sizeof(blat_field))
 
 void convert(BLEAdvertisedDevice *d, blatano_t* blat, uint8_t *pdup_index) {
   //  d.getAddress().toString().c_str()
@@ -199,11 +197,14 @@ void convert(BLEAdvertisedDevice *d, blatano_t* blat, uint8_t *pdup_index) {
   }
 
   if (d->haveManufacturerData()) {
-    BLAT_STRING(blat->manufacturer_data, d->getManufacturerData());
+    // manufacturer_code is 2 bytes since that's the code
+    // the rest of the data varies
+    BLAT_STRING(blat->manufacturer_code, d->getManufacturerData());
   }
 
   if (d->haveServiceUUID()) {
     BLAT_DATA(blat->service_uuid, d->getServiceUUID().to128().getNative()->uuid.uuid128);
+    blat->serviceType=getWellKnownServiceType(d);
   }
 
   if (d->haveTXPower()) {
@@ -215,38 +216,39 @@ void convert(BLEAdvertisedDevice *d, blatano_t* blat, uint8_t *pdup_index) {
 void enhance(blatano_t *blat) {
   uint8_t const *blatp = ((uint8_t const *) blat);
   blat->crc32 = crc32.calc(blatp, offsetof(blatano_t, BLATANO_T_CRC_END));
+#if 0
+  PRINTF("- 0x%x = crc32.calc(blatp, %d)", blat->crc32, offsetof(blatano_t, BLATANO_T_CRC_END));
+  for (int i = 0; i < offsetof(blatano_t, BLATANO_T_CRC_END); i++) {
+    PRINTF("-- blat[0x%x] = 0x%x", i, blatp[i]);
+  }
+#endif
   robot_named_n(blat->name, blat->crc32);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  PRINTF("LOOP");
+  PRINTF("Scanning");
   BLEScanResults foundDevices = pBLEScan->start(scanTime, false);
-  PRINTF("BLEScanResults DONE");
   {
+    // display.clear();
+    // display.drawXbm(0 + 17, 0 + 17, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+    // display.drawXbm(128-32, 0 + 17, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
+    // display.display();
+    // delay(1000);
     display.clear();
-    display.drawXbm(0 + 17, 0 + 17, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
-    display.drawXbm(128-32, 0 + 17, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
     display.display();
-    delay(1000);
   }
 
-  {
-    display.clear();
-
-    display.display();
-    delay(1000);
-  }
-  PRINTF("Found: %d", foundDevices.getCount(), 0);
+  PRINTF("Found: %d", foundDevices.getCount());
   int k = foundDevices.getCount();
   uint8_t dup_index = 0;
   for (int i = 0; i < k; i++)  {
+    blatano_t blat = {};	// {} to clear to zero
     display.clear();
     int progress = k==1 ? 1 : (i * 100/(k-1));
     display.drawProgressBar(64, 0, 63, TEXT_FIRST_LINE, progress);
-    queueDevice(&foundDevices, i, &dup_index);
-    blatano_t blat = blatani.last();
-    snprintf(linebuf, sizeof linebuf, "%d %X %s\n", i, blat.crc32, blat.name);
+    processDevice(&blat, &foundDevices, i, &dup_index);
+    PRINTF("- %d %X %s\n", i, blat.crc32, blat.name);
+    snprintf(linebuf, sizeof linebuf, "%d %X %s", i, blat.crc32, blat.name);
     // i*LEADING+TEXT_FIRST_LINE
     display.drawStringMaxWidth(0, 1*LEADING, 128, linebuf);
     display.display();
