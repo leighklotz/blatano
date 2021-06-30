@@ -108,8 +108,27 @@ bits.  I tried drawing with Python Turtle Graphics to experiment with
 multi-bit variation in head shape and eye size, but eventually
 concluded the approach was too cumbersome.
 
-# References
-These references consist of a near record of my browsing history during this project, plus a few select links.
+I had found a few approximations of the GitHub icon drawer, and some
+CSS hacks, but none were appropriate for tiny 64x64 square monochrome
+pixels. Eventually I found Jake.dk's copy of Dave Bollinger's
+Pixel Robot Generator. It's a clever hack to generate passable robots
+from a 24-bit number by using symmetry, a simple template, and a
+lightweight edge-tracing algorithm. Unfortunately, the code is not
+useful (ancient C#), but the algorithm is appealing. A 4-byte code
+giving 4-part robots would be a better fit than the 3-part robot, but
+the loss is not that great, and 2^24 robot drawings ought to be enough
+for anybody.
+
+# Current status
+Next stop: Drawing implementation. Here are samples copied from
+Jake.dk's copy of Dave Bollinger's illustrations, via Archive.org
+WayBack Machine (Yay, Brewster!)
+
+- ![](docs/robots_256parts.gif)
+- ![](docs/robots_samples.gif)
+
+# References These references consist of a near record of my browsing
+history during this project, plus a few select links.
 
 
 - [Arduino](https://arduino.cc)
