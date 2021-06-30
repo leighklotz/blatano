@@ -36,6 +36,16 @@ void setup() {
   S2_LEN = (NUM_SYLLABLES+1) * (strlen(NR)+3);
   S3_LEN = S1_LEN;
   S4_LEN = (sizeof(SUFFIXES) / sizeof(char *)) + 5;
+
+  // coverage
+  // note that this is an upper bound because we some conversion loss, such as
+  // multiple chances to omit a syllable ending.  We get about 8% coverage
+  // of the incoming 32-bit space, or about 28.5 bits instead of 32 bits.
+  // We can explain this as "our names cannot be rendered exactly in your alphabet."
+  unsigned long s_total = S1_LEN * S2_LEN * S3_LEN * S4_LEN;
+  double coverage = s_total / ((double)((unsigned long)0xFFFFFFFF) );
+  printf("# S1=%d S2=%d S3=%d S4=%d\n", S1_LEN, S2_LEN, S3_LEN, S4_LEN);
+  printf("# S_TOTAL=%lu coverage=%f\n", s_total, coverage);
 }
 
 char *add_syllable(char *buf, uint32_t s) {
@@ -131,7 +141,7 @@ char *robot_named_n(char *buf, uint32_t nhash) {
   bbuf = add_s3(bbuf, nhash); nhash /= S3_LEN;
   bbuf = add_s4(bbuf, nhash); nhash /= S4_LEN;
   *bbuf = '\0';
-  DPRINTF("robot named 0x%x is %s\n", nhash, buf);
+  DPRINTF("robot named 0x%x is %s [remainder 0x%x]\n", nhash, buf, nhash);
   return buf;
 }
 

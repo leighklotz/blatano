@@ -3,17 +3,119 @@
 Blatano is a mid-21st Century Modern inhabitant of boundary between
 our physical and digital space.. It knows only what it senses in the
 environment around it, and it recognizes fellow digital denizens by
-their trails, and gives them names.
+their trails, and shows you their names (as best can be rendered in
+our tongue), and a drawing. Eschewing Dr. Seuss's "Thing 1, Thing 2"
+approach, Blatano uses a way of naming entities that distills all its
+knowledge down into a few bits of information, which it then further
+illustrates for us as a drawing and a few flickering bits of
+variations. Similarly, the drawing may not resemble you or your smart
+refrigerator, but rest if you see a name and robot drawing
+consistently associated with your presence, rest assured it is an
+accurate representation of how Blatano perceives you.
 
-Blatano could learn more, and it could benefit from more
-senses: WiFi for a sense of place, light brightness to know when it's
-dark, Lidar distance to know if something is approaching, acceleration
-to determine orientation, an internal clock for tracking time.  Feel
-free to experiment and add some of these senses.
+Blatano converts the Bluetooth packets it can read into an small
+amount of data, an information summary with everything it can remember
+about the entity it is hearing from.
+
+Since Blatano's electromagnetic vision is not as rich as ours, it
+sometimes confuses what we would recognize as two distinct entities,
+but Blatano simply cannot tell them apart.
+
+Blatano has a built-in set of criteria for deciding what is unique and
+what is variation, discarding the most random and keeping a few key
+points. This lets Blatano recognize a few things dimly, such the
+difference between humans and service robots. Although it can
+recognize the difference, it does not attribute any importance to it
+other than as a distinguishing characteristic! Still, it contributes
+to Blatano's knowledge and thus the name and the drawing.
+
+Blatano could to distinguish entities better with more senses, and
+with a bit of work on learning across them.  Easy additions are WiFi
+for a sense of place, light brightness to know when it's dark, Lidar
+distance to know if something is approaching, acceleration to
+determine orientation, an internal clock for tracking time, even a
+GPS!  Feel free to experiment and add some of these senses.
+
+Once Blatano has more senses, we'll need to figure out how to associate their values
+instead of using a simple naming scheme for their values. Some sort of clustering
+or embedding? TF-IDF? Who knows, maybe you?
 
 Enjoy Blatano.
 
+# Hardware and Tech Stack
+There are a projects that use ESP32 BLE Scanner, but all have
+different aims, though the tech stack is similar.
+
+I started with the ESP32 Bluetooth Scanner, from Moononournation's
+Arduino_BLE_Scanner GitHub repo, plus a whole lot more approaches
+tried in the rest of the web, links below.
+
+- Pwnagochi: crack wifi, but with a drawn-character face
+- Hash Monster: crack wifi
+- CovidSniffer: nearby covid beacon counter
+
+
+# Sensing
+
+BLE entity sensing for the ESP32 all comes from the same place.  There
+are a variety of processing approaches, but all are the same
+fundamentally: loop through the BLE advertisements of devices that
+want to answer your query; decide what fields to keep and what ones to
+discard, and which to pick apart with bit tweezers; decide how long
+you keep data or counts in memory, given that iPhones change their
+Bluetooth MAC address every 20 minutes.
+
+# Representation
+
+Recognized entities are given a 32-bit number, which is then the
+
+To turn the sensory data into a 32-bit number, I used the CRC32C
+algorithm to turn any amount of data into a 32-bit number.  In this
+step, we also discard information.  The process of hashing a bigger
+piece of data into a 32-bit number is necessarily lossy. of it to turn
+it into a key, or an internal name, from which we then generate the
+name and the drawing.
+
+# Naming
+
+For naming, I had the idea to generate robot names from a syllibary
+and three or four syllables and suffixes, plus memories of Stanislaw
+Lem's novels, in English translation for the suffixes.
+
+I created a Python hack to generate a robot name from a 32-bit number.
+I started with the Japanese consonants and vowels, and added and
+removed letters and did other random hacks until I liked the names it
+produced.  Then I made it possible to calculate without lookup tables,
+and moved it to C and added it to into the BLE Scanner project. The
+names are robotic enough, and although the input is still only a
+32-bit number, it uses only about 28.5 bits, or 8% coverage of 32-bit
+numbers with names. We can cheekily explain this as "our names cannot
+be rendered exactly in your alphabet."
+
+I converted the Python hack to C, then into the Arduino toolchain, and
+simplified it. Test code is still present, but #if'd out.
+
+# Drawing
+
+For drawing, Blatano follows an old design from a website no longer
+maintained, but available through Brewster Kahle's Wayback Machine of
+Archive.org, and through a few links to that page.  The drawing
+algorithm is due to Dave Bollinger of DaveBollinger.com in 2008, and
+the links are available in the references. I had several false starts
+trying to convert a 32-bit CRC32C hash code into an image, but had a
+basic idea to start with head, arms, tors, and legs specified with 8
+bits.  I tried drawing with Python Turtle Graphics to experiment with
+multi-bit variation in head shape and eye size, but eventually
+concluded the approach was too cumbersome.
+
 # References
+These references consist of a near record of my browsing history during this project, plus a few select links.
+
+
+- [Arduino](https://arduino.cc)
+- [Adafruit](https://adafruit.com)
+- [Espressif OSS](https://github.com/espressif)
+- [Pwnagotchi](https://pwnagotchi.ai/)
 - [Arduino ESP32 Adafruit SSD1306 - Google Search](https://www.google.com/search?q=arduino+esp32+adafruit+ssd1306)
 - [ESP32 OLED Display with Arduino IDE | Random Nerd Tutorials](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/)
 - [In-Depth: Interface OLED Graphic Display Module with ESP32](https://lastminuteengineers.com/oled-display-esp32-tutorial/)
@@ -29,7 +131,7 @@ Enjoy Blatano.
 - [Arduino_BLE_Scanner.ino](https://github.com/moononournation/Arduino_BLE_Scanner/blob/master/Arduino_BLE_Scanner.ino)
 - [Bluetooth Low Energy (BLE) identifier reference | diyActive](https://reelyactive.github.io/ble-identifier-reference.html)
 - [Welcome to The Public Listing For IEEE Standards Registration Authority](https://regauth.standards.ieee.org/standards-ra-web/pub/view.html#registries)
-- [Search results for 00:60:80](https://macaddresschanger.com/bluetooth-mac-lookup/00%3A60%3A80)
+- [00:60:80](https://macaddresschanger.com/bluetooth-mac-lookup/00%3A60%3A80)
 - [Neologisms of Stanislaw Lem - Wikibooks, open books for an open world](https://en.wikibooks.org/wiki/Neologisms_of_Stanislaw_Lem#Nano_robots_that_carry_medicines_directly_to_the_cells)
 - [Harald Bluetooth - Wikipedia](https://en.wikipedia.org/wiki/Harald_Bluetooth)
 - [Adafruit_SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
@@ -41,7 +143,7 @@ Enjoy Blatano.
 - [arduino non-cryptographic hash - Google Search](https://www.google.com/search?q=arduino+non-cryptographic+hash)
 - [The Hash Monster: ESP32 Tamagotchi For WiFi Cracking : esp32](https://www.reddit.com/r/esp32/comments/ilrulf/the_hash_monster_esp32_tamagotchi_for_wifi/)
 - [The Hash Monster: ESP32 Tamagotchi For WiFi Cracking — Telescope](https://telescope.ac/petazzoni/the-hash-monster-esp32-tamagotchi-for-wifi-cracking)
-- [main/app_main.c · master · Michael Schmidl / CovidSniffer · GitLab](https://gitlab.com/mschmidl/covidsniffer/-/blob/master/main/app_main.c)
+- [CovidSniffer / Michael Schmidl](https://gitlab.com/mschmidl/covidsniffer/-/blob/master/main/app_main.c)
 - [M5_SSID_scanner_collector](https://github.com/elkentaro/M5_SSID_scanner_collector)
 - [Data Processing - Arduino Reference](https://www.arduino.cc/reference/en/libraries/category/data-processing/)
 - [Lightweight Cryptography Primitives: Performance on 32-bit platforms](https://rweather.github.io/lightweight-crypto/performance.html)
@@ -122,3 +224,4 @@ Enjoy Blatano.
 - [Finding bluetooth vendor information - Using Arduino / Networking, Protocols, and Devices - Arduino Forum](https://forum.arduino.cc/t/finding-bluetooth-vendor-information/636094)
 - [Company Identifiers | Bluetooth® Technology Website](https://www.bluetooth.com/specifications/assigned-numbers/company-identifiers/)
 - [Pixel Robot Generator](http://www.jake.dk/programmering/html/gamlehjemmesider/xnafan/xnafan.net/2010/01/xna-pixel-robots-library/index.html)
+- [Dave Bollinger, Pixel Robot Generator, Wayback Machine](http://web.archive.org/web/20080228054405/http://www.davebollinger.com/works/pixelrobots/)
