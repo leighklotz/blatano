@@ -121,7 +121,7 @@ better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
 
 # Current status
-Next stop: Drawing implementation.
+Current status is: Drawing implementation
 
 # Drawing Implementation
 Here are samples copied from
@@ -141,6 +141,11 @@ easier to implement in some ways.  The above diagrams contain all
 isn't necessarily a bad approach, bitblt notwithstanding.  On the
 other hand, drawing each bit in the template as a 5x square isn't hard
 either, and no need to make a big table or store an image on Flash.
+
+## PixelRobots Processing code
+I found Dave Bollonger's original Processing code as well, on the WayBack Machine
+link from Jake.dk. It's copied into the docs/PixelRobots/ directory.
+If you remove one framerate config setting, it runs in Processing today.
 
 # Physical Embodiement
 
@@ -180,6 +185,7 @@ history during this project, plus a few select links.
 - [Adafruit](https://adafruit.com)
 - [Espressif OSS](https://github.com/espressif)
 - [Pwnagotchi](https://pwnagotchi.ai/)
+- [Processing](https://processing.org/download/
 - [Arduino ESP32 Adafruit SSD1306 - Google Search](https://www.google.com/search?q=arduino+esp32+adafruit+ssd1306)
 - [ESP32 OLED Display with Arduino IDE | Random Nerd Tutorials](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/)
 - [In-Depth: Interface OLED Graphic Display Module with ESP32](https://lastminuteengineers.com/oled-display-esp32-tutorial/)
