@@ -8,7 +8,9 @@
 int SQUARE_PIXELS = 480;
 //int currentSeed = 0;
 int robot_num = 0x1af824;
+int robot_scale = 5;
 PixelRobot robot;
+boolean PRINT_ROBOT = true;
 
 void setup() {
   size(480, 480);
@@ -18,10 +20,10 @@ void setup() {
 
 void draw() {
   background(color(255,255,255));
-  robot.setScales( 5, 5 );
-  robot.setMargins( 5, 5 );
+  robot.setScales(5, 5);
+  robot.setMargins(1, 1);
   robot.generate(robot_num);
-  robot.draw( 0, 0 );
+  robot.draw(0, 0);
 }
 
 
@@ -68,15 +70,8 @@ class PixelRobot {
     xscale = xs;
     yscale = ys;
   }
-  // reset the entire grid to empty
-  void wipe() {
-    for (int r=0; r<rows; r++)
-      for (int c=0; c<cols; c++)
-        grid[r][c] = EMPTY;
-  }
   // generate the robot pattern for the given seed
   void generate(int seed) {
-    wipe();
     // HEAD
     int hseed = (seed) & 0xff;
     grid[1][1]  = ((hseed&1)>0)   ? AVOID : EMPTY;
@@ -142,9 +137,13 @@ class PixelRobot {
           case AVOID : fill(bgcolor); break;
           case SOLID : fill(fgcolor); break;
         }
-        rect(x1,y1,xscale,yscale);      
+	if (PRINT_ROBOT) print(m == SOLID ? "X" : " ");
+        rect(x1,y1,xscale,yscale);
       }
+      if (PRINT_ROBOT) println();
     }
+    if (PRINT_ROBOT) PRINT_ROBOT=false;
   } 
+
 }
 
