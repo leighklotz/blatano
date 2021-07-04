@@ -18,7 +18,7 @@ const char *CONSONANTS="kgstnvhbpmyrlw";
 const char *VOWELS="aeiou";
 const char *NR="nr";		// 5 [3 spaces at beg]
 const char *NXR="xnr";		//  4 [1 space at beg]
-const char *SUFFIXES[]={ "tor", "tron", "on", "in", "ivor", "oron", "ist" }; //  7
+const char *SUFFIXES[]={ "-tor", "-tron", "-ander", "-in", "-ivor", "-oton", "-ogar" }; //  7
 
 int VOWELS_LEN;
 int CONSONANTS_LEN;
@@ -38,7 +38,8 @@ void setup_names() {
   S1_LEN = (NUM_SYLLABLES+1) * (strlen(NXR)+1);
   S2_LEN = (NUM_SYLLABLES+1) * (strlen(NR)+3);
   S3_LEN = S1_LEN;
-  S4_LEN = (sizeof(SUFFIXES) / sizeof(char *)) + 5;
+  //  S4_LEN = (sizeof(SUFFIXES) / sizeof(char *)) + 5;
+  S4_LEN = (sizeof(SUFFIXES) / sizeof(char *)) + 0;
 }
 
 char *add_syllable(char *buf, uint32_t s) {
