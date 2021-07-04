@@ -29,6 +29,10 @@ recognize the difference, it does not attribute any importance to it
 other than as a distinguishing characteristic! Still, it contributes
 to Blatano's knowledge and thus the name and the drawing.
 
+In Rich Gold's "Little Computer People," we are outside the
+computation, looking at the homunculus in the computer. With
+Blatano, the homunculus is looking at us.
+
 Blatano could to distinguish entities better with more senses, and
 with a bit of work on learning across them.  Easy additions are WiFi
 for a sense of place, light brightness to know when it's dark, Lidar
@@ -187,6 +191,7 @@ history during this project, plus a few select links.
 - [Adafruit](https://adafruit.com)
 - [Espressif OSS](https://github.com/espressif)
 - [Pwnagotchi](https://pwnagotchi.ai/)
+- [Little Computer People](https://en.wikipedia.org/wiki/Little_Computer_People)
 - [Processing](https://processing.org/download/
 - [Arduino ESP32 Adafruit SSD1306 - Google Search](https://www.google.com/search?q=arduino+esp32+adafruit+ssd1306)
 - [ESP32 OLED Display with Arduino IDE | Random Nerd Tutorials](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/)
