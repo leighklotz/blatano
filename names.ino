@@ -1,7 +1,19 @@
+// Leigh Klotz Sat 03 Jul 2021 05:47:39 PM PDT
+//
+// This is my algorithm for making robot names out of a 32 bit
+// integer such as from CRC32C check.
+//
+// self-contained CRC32C that runs only on a 32-bit input
+// also included just for self test.  it's from
+// https://inbox.dpdk.org/dev/56BC4481.1060009@6wind.com/T/
+// Eventually we should #if it out
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "names.h"
 
 const char *CONSONANTS="kgstnvhbpmyrlw";
 const char *VOWELS="aeiou";
@@ -18,8 +30,7 @@ int S2_LEN;
 int S3_LEN;
 int S4_LEN;
 
-void setup_crc() {
-  Serial.println("setup_crc");
+void setup_names() {
   VOWELS_LEN=strlen(VOWELS);
   CONSONANTS_LEN=strlen(CONSONANTS);
   SUFFIXES_LEN = sizeof(SUFFIXES) / sizeof(SUFFIXES[0]);
@@ -29,7 +40,6 @@ void setup_crc() {
   S2_LEN = (NUM_SYLLABLES+1) * (strlen(NR)+3);
   S3_LEN = S1_LEN;
   S4_LEN = (sizeof(SUFFIXES) / sizeof(char *)) + 5;
-  Serial.println("setup_crc_done");
 }
 
 char *add_syllable(char *buf, uint32_t s) {
