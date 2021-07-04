@@ -26,10 +26,15 @@
 #include "Blatano.h"
 #include "PixelRobot.h"
 
+#if 0
 #include "wifixbm.h"
 #include "bluetoothxbm.h"
+#endif
+#if 1
+#include "blatano-github-qr-xbm.h"
+#endif
 
-int scanTime = 5; //In seconds
+int scanTime = 10; //In seconds
 BLEScan* pBLEScan;
 
 #define D3 OLED_SDA
@@ -273,9 +278,12 @@ void displayDevice(int i, blatano_t blat) {
   int display_width = display.getWidth();
   int robot_width = pixel_robot.getWidth();
 
+#if 0
   // i CRC32
   display.setFont(ArialMT_Plain_10);
   display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
+#endif
+
   // blat.name
   display.setFont(ArialMT_Plain_16);
   display.drawStringMaxWidth(robot_width+3, TEXT_FIRST_LINE, display_width-(robot_width+3), blat.name);
@@ -299,12 +307,15 @@ void draw_pixel_robot(uint32_t robot_num) {
 }
 
 void draw_splash_screen() {
-  display.setFont(ArialMT_Plain_24);
-  display.drawStringMaxWidth(8, 0, 127, "Ego Blatano");
+  display.setFont(ArialMT_Plain_16);
+  display.drawStringMaxWidth(0, 0, 64, "Ego Blatano");
+  display.drawXbm(64, 0, blatano_github_width, blatano_github_height, blatano_github_bits);
   display.display();
   delay(5000);
+#if 0
   display.clear();
   display.drawXbm(0 + 32, 0 + 32, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
   display.drawXbm(128-32, 0 + 32, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
   display.display();
+#endif
 }
