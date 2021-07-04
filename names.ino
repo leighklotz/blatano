@@ -18,7 +18,7 @@ const char *CONSONANTS="kgstnvhbpmyrlw";
 const char *VOWELS="aeiou";
 const char *NR="nr";		// 5 [3 spaces at beg]
 const char *NXR="xnr";		//  4 [1 space at beg]
-const char *SUFFIXES[]={ "-tor", "-tron", "-ander", "-in", "-ivor", "-oton", "-ogar" }; //  7
+const char *SUFFIXES[]={ "-ator", "-tron", "-o-mat", "-in", "-ivor", "-oton", "-oid" }; //  7
 
 int VOWELS_LEN;
 int CONSONANTS_LEN;
