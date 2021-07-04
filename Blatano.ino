@@ -1,8 +1,12 @@
 /*
- * Leigh Klotz <klotz@klotz.me> ESP32 Bluetooth friend finder
-   Based on Neil Kolban example for IDF: https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleScan.cpp
-   Ported to Arduino ESP32 by Evandro Copercini
-
+ * Leigh Klotz <klotz@klotz.me> ESP32 Bluetooth Friend "Blatano"
+ * Bluetooth scanner based on Neil Kolban example for IDF
+ * - https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleScan.cpp 
+ * - Ported to Arduino ESP32 by Evandro Copercini
+ * Robot name is due to me
+ * PixelRobot is due to 
+ * http://www.jake.dk/programmering/html/gamlehjemmesider/xnafan/xnafan.net/2010/01/xna-pixel-robots-library/index.html
+ * - Dave Bollinger, Pixel Robot Generator, Wayback Machine](http://web.archive.org/web/20080228054405/http://www.davebollinger.com/works/pixelrobots
 */
 
 #include <Arduino.h>
