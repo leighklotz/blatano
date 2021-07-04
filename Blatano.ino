@@ -22,6 +22,9 @@
 #include "Blatano.h"
 #include "PixelRobot.h"
 
+#include "wifixbm.h"
+#include "bluetoothxbm.h"
+
 int scanTime = 5; //In seconds
 BLEScan* pBLEScan;
 
@@ -31,7 +34,7 @@ BLEScan* pBLEScan;
 // Initialize the OLED display using Wire library
 // https://github.com/Xinyuan-LilyGO/LilyGo-W5500-Lite/tree/master/libdeps/esp8266-oled-ssd1306
 // installed from Arduino IDE ThingPulse, Fabrice Weinberg v 4.2.0
-SSD1306Wire  display(0x3C, D3, D5);
+SSD1306Wire display(0x3C, D3, D5);
 
 enum servicetype_t getWellKnownServiceType(BLEAdvertisedDevice *d);
 BLEUUID COVID_TRACKER_SERVICEUUID = BLEUUID("0000fd6f-0000-1000-8000-00805f9b34fb");
@@ -40,11 +43,16 @@ BLEUUID FITBIT_CHARGE_3_SERVICEUUID = BLEUUID("adabfb00-6e7d-4601-bda2-bffaa6895
 
 const int TEXT_FIRST_LINE = 8;
 const int LEADING = 12;
-char linebuf[64];
+char linebuf[128];		// 128 characters ought to be enough for anyone
 Arduino_CRC32 crc32;
 
 
-#define PRINTF(s_, ...) snprintf(linebuf, 64, (s_), ##__VA_ARGS__); Serial.println(linebuf)
+#define PRINTF(s_, ...) snprintf(linebuf, 128, (s_), ##__VA_ARGS__); Serial.println(linebuf)
+
+const int ROBOT_SCALE = 5;
+PixelRobot pixel_robot;
+
+extern void draw_pixel_robot(uint32_t robot_num);
 
 extern void enhance(blatano_t *blat);
 extern void printDevice(BLEAdvertisedDevice d);
@@ -55,21 +63,25 @@ void setup() {
   display.init();
   display.setContrast(255);
   display.clear();
-  // display.setFont(ArialMT_Plain_10);
-  display.setFont(ArialMT_Plain_16);
-  display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.display();
   PRINTF("Startup");
+  draw_splash_screen();
 
   PRINTF("Setup Names");
   setup_names();
 #if TEST_NAMES
-  PRINTF("Testing robot names");
+  PRINTF("Test robot names");
   test_names();
   PRINTF("Robot names done");
 #endif
   
-  PRINTF("Scanning");
+  PRINTF("Setup PixelRobot");
+  pixel_robot = PixelRobot();
+  pixel_robot.setScales(5, 5);
+  pixel_robot.setMargins(1, 0);
+  pixel_robot.generate(0);
+
+  PRINTF("Create Scanner");
   BLEDevice::init("Blatano_0x00");
   pBLEScan = BLEDevice::getScan(); //create new scan
   pBLEScan->setActiveScan(true); //active scan uses more power, but get results faster
@@ -218,18 +230,12 @@ void enhance(blatano_t *blat) {
   }
 #endif
   robot_named_n(blat->name, blat->crc32); // robot_named_n doesn't cover the whole thing either
-  pixel_robot.draw(blat->crc32 & 0xffffff); // PixelRobot uses 24-bits, so we lose 8 bits here.
 }
 
 void loop() {
   PRINTF("Scanning");
   BLEScanResults foundDevices = pBLEScan->start(scanTime, false);
   {
-    // display.clear();
-    // display.drawXbm(0 + 17, 0 + 17, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
-    // display.drawXbm(128-32, 0 + 17, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
-    // display.display();
-    // delay(1000);
     display.clear();
     display.display();
   }
@@ -237,19 +243,54 @@ void loop() {
   PRINTF("Found: %d", foundDevices.getCount());
   int k = foundDevices.getCount();
   uint8_t dup_index = 0;
+  int display_width = display.getWidth();
+  int display_height = display.getHeight();
+  int robot_width = pixel_robot.getWidth();
+  printf("- display_width %d display_height %d robot_width %d\n",
+	 display_width, display_height, robot_width);
   for (int i = 0; i < k; i++)  {
     blatano_t blat = {};	// {} to clear to zero
     display.clear();
     int progress = k==1 ? 1 : (i * 100/(k-1));
-    display.drawProgressBar(64, 0, 63, TEXT_FIRST_LINE, progress);
+    display.drawProgressBar(robot_width+1, 0, 
+			    display_width-(robot_width+1)-1, 
+			    TEXT_FIRST_LINE, progress);
     processDevice(&blat, &foundDevices, i, &dup_index);
     PRINTF("- %d %X %s\n", i, blat.crc32, blat.name);
     snprintf(linebuf, sizeof linebuf, "%d %X %s", i, blat.crc32, blat.name);
-    // i*LEADING+TEXT_FIRST_LINE
-    display.drawStringMaxWidth(0, 1*LEADING, 128, linebuf);
+    // i CRC32
+    display.setFont(ArialMT_Plain_10);
+    display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
+    display.setFont(ArialMT_Plain_16);
+    // blat.name
+    display.drawStringMaxWidth(robot_width+5, TEXT_FIRST_LINE,
+			       display_width-(robot_width+5),
+			       blat.name);
+
+    // draw_pixel_robot
+    // PixelRobot uses 24-bits, so we lose 8 bits here.
+    // For my neighborheed, top 24 bits looked better so I took those.
+    // Maybe investigate spined robots
+    draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
     display.display();
     delay(1000);
   }
   // delete results fromBLEScan buffer to release memory
   pBLEScan->clearResults();   
+}
+
+// test with robot_num = 0x1af824;
+void draw_pixel_robot(uint32_t robot_num) {
+  PRINTF("- robot_num %x\n", robot_num);
+  pixel_robot.clear();
+  pixel_robot.generate(robot_num);
+  pixel_robot.draw(0, 0);//1*ROBOT_SCALE
+}
+
+void draw_splash_screen() {
+  display.clear();
+  display.drawXbm(0 + 17, 0 + 17, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+  display.drawXbm(128-32, 0 + 17, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
+  display.display();
+  delay(1000);
 }

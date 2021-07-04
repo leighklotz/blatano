@@ -23,7 +23,7 @@ public:
   void setScales(int xs, int ys);
 
   // generate the robot pattern for the given seed
-  void generate(int seed); 
+  void generate(uint32_t seed); 
 
   // draw the robot at given coordinates
   void draw(int basex, int basey); 
@@ -46,6 +46,4 @@ private:
   // margins (in pixel units)
   int xmargin, ymargin;
 };
-
-extern PixelRobot pixel_robot;
 

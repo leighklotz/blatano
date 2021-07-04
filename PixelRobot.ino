@@ -9,42 +9,11 @@
 
 #include <Arduino.h>
 
-#include "PixelRobot.h"
-
-int SQUARE_PIXELS = 480;
-int robot_scale = 5;
-PixelRobot pixel_robot = PixelRobot();
-boolean PRINT_ROBOT = true;
-#define PRINT Serial.print
-#define PRINTLN Serial.println
-
-
-// stubs
-void noStroke() {Serial.println();}
-void fill(int color) {Serial.print(color); }
-void rect(int x, int y, int width, int height) { if (x == 0) Serial.println(); }
-void background(int color);
-///
-
-// test with robot_num = 0x1af824;
-
-void draw(int robot_num) {
-  background(0);
-  robot.setScales(5, 5);
-  robot.setMargins(1, 1);
-  robot.generate(robot_num);
-  robot.draw(0, 0);
-}
-
 PixelRobot::PixelRobot() {
   bgcolor = 0;
   fgcolor = 1;
   xscale = yscale = 2;
   xmargin = ymargin = 1;
-}
-
-void PixelRobot::clear() {
-  memset(grid, 0, sizeof(*grid));
 }
 
 int PixelRobot::getHeight() {
@@ -65,10 +34,14 @@ void PixelRobot::setScales(int xs, int ys) {
   yscale = ys;
 }
 
+void PixelRobot::clear() {
+  memset(grid, 0, sizeof grid);
+}
+
 // generate the robot pattern for the given seed
-void PixelRobot::generate(int seed) {
+void PixelRobot::generate(uint32_t seed) {
   // HEAD
-  int hseed = (seed) & 0xff;
+  uint8_t hseed = (seed) & 0xff;
   grid[1][1]  = ((hseed&1)>0)   ? AVOID : EMPTY;
   grid[1][2]  = ((hseed&2)>0)   ? AVOID : EMPTY;
   grid[1][3]  = ((hseed&4)>0)   ? AVOID : EMPTY;
@@ -78,7 +51,7 @@ void PixelRobot::generate(int seed) {
   grid[3][2]  = ((hseed&64)>0)  ? AVOID : EMPTY;
   grid[3][3]  = ((hseed&128)>0) ? AVOID : EMPTY;
   // BODY
-  int bseed = (seed>>8) & 0xff;
+  uint8_t bseed = (seed>>8) & 0xff;
   grid[4][3]  = ((bseed&1)>0)   ? AVOID : EMPTY;
   grid[5][1]  = ((bseed&2)>0)   ? AVOID : EMPTY;
   grid[5][2]  = ((bseed&4)>0)   ? AVOID : EMPTY;
@@ -88,7 +61,7 @@ void PixelRobot::generate(int seed) {
   grid[6][3]  = ((bseed&64)>0)  ? AVOID : EMPTY;
   grid[7][3]  = ((bseed&128)>0) ? AVOID : EMPTY;
   // FEET
-  int fseed = (seed>>16) & 0xff;
+  uint8_t fseed = (seed>>16) & 0xff;
   grid[8][3]  = ((fseed&1)>0)   ? AVOID : EMPTY;
   grid[9][1]  = ((fseed&2)>0)   ? AVOID : EMPTY;
   grid[9][2]  = ((fseed&4)>0)   ? AVOID : EMPTY;
@@ -121,24 +94,20 @@ void PixelRobot::generate(int seed) {
 } 
   // draw the robot at given coordinates
 void PixelRobot::draw(int basex, int basey) {
-  noStroke();
   for (int r=0; r<rows; r++) {
     int y1 = basey + ymargin/2 + r * yscale;
     for (int c=0; c<cols; c++) {
       int x1 = basex + xmargin/2 + c * xscale;
-      int m = grid[r][c];
+      uint8_t m = grid[r][c];
+      int color;
       switch(m) {
-      case EMPTY :
-      case AVOID : fill(bgcolor); break;
-      case SOLID : fill(fgcolor); break;
+      case EMPTY : color=BLACK;
+      case AVOID : color=BLACK; break;
+      case SOLID : color=WHITE; break;
       }
-      if (PRINT_ROBOT) PRINT(m == SOLID ? "X" : " ");
-      rect(x1,y1,xscale,yscale);
+      fillRect(x1, y1, xscale, yscale, color);
     }
-    if (PRINT_ROBOT) PRINTLN();
   }
-  if (PRINT_ROBOT) PRINT_ROBOT=false;
-  noStroke();
 } 
 
 
