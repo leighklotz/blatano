@@ -55,11 +55,13 @@ Arduino_CRC32 crc32;
 
 const int ROBOT_SCALE = 5;
 PixelRobot pixel_robot;
+memory_t memory[32];
 
-extern void draw_pixel_robot(uint32_t robot_num);
-
-extern void enhance(blatano_t *blat);
-extern void printDevice(BLEAdvertisedDevice d);
+void draw_pixel_robot(uint32_t robot_num);
+void enhance(blatano_t *blat);
+void printDevice(BLEAdvertisedDevice d);
+void displayDevice(int i, blatano_t blat);
+void draw_splash_screen();
 
 void setup() {
   Serial.begin(115200);
@@ -69,7 +71,6 @@ void setup() {
   display.clear();
   display.display();
   PRINTF("Startup");
-  draw_splash_screen();
 
   PRINTF("Setup Names");
   setup_names();
@@ -91,6 +92,9 @@ void setup() {
   pBLEScan->setActiveScan(true); //active scan uses more power, but get results faster
   pBLEScan->setInterval(60);
   pBLEScan->setWindow(59);  // less or equal setInterval value
+
+  PRINTF("Draw Splash Screen");
+  draw_splash_screen();
 }
 
 void processDevice(blatano_t *pblat, BLEScanResults *foundDevices, int i, uint8_t *pdup_index) {
@@ -233,7 +237,8 @@ void enhance(blatano_t *blat) {
     PRINTF("-- blat[0x%x] = 0x%x", i, blatp[i]);
   }
 #endif
-  robot_named_n(blat->name, blat->crc32); // robot_named_n doesn't cover the whole thing either
+  // robot_named_n doesn't cover the whole crc32 bits
+  robot_named_n(blat->name, blat->crc32); 
 }
 
 void loop() {
@@ -248,40 +253,42 @@ void loop() {
   int k = foundDevices.getCount();
   uint8_t dup_index = 0;
   int display_width = display.getWidth();
-  int display_height = display.getHeight();
   int robot_width = pixel_robot.getWidth();
-  printf("- display_width %d display_height %d robot_width %d\n",
-	 display_width, display_height, robot_width);
   for (int i = 0; i < k; i++)  {
     blatano_t blat = {};	// {} to clear to zero
     display.clear();
     int progress = k==1 ? 1 : (i * 100/(k-1));
-    display.drawProgressBar(robot_width+1, 0, 
-			    display_width-(robot_width+1)-1, 
-			    TEXT_FIRST_LINE, progress);
+    display.drawProgressBar(robot_width+1, 0, display_width-(robot_width+1)-1, TEXT_FIRST_LINE, progress);
     processDevice(&blat, &foundDevices, i, &dup_index);
-    PRINTF("- %d %X %s\n", i, blat.crc32, blat.name);
-    snprintf(linebuf, sizeof linebuf, "%d %X %s", i, blat.crc32, blat.name);
-    // i CRC32
-    display.setFont(ArialMT_Plain_10);
-    display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
-    display.setFont(ArialMT_Plain_16);
-    // blat.name
-    display.drawStringMaxWidth(robot_width+5, TEXT_FIRST_LINE,
-			       display_width-(robot_width+5),
-			       blat.name);
-
-    // draw_pixel_robot
-    // PixelRobot uses 24-bits, so we lose 8 bits here.
-    // For my neighborheed, top 24 bits looked better so I took those.
-    // Maybe investigate spined robots
-    draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
-    display.display();
-    delay(1000);
+    displayDevice(i, blat);
   }
   // delete results fromBLEScan buffer to release memory
   pBLEScan->clearResults();   
 }
+
+void displayDevice(int i, blatano_t blat) {
+  PRINTF("- %d %X %s\n", i, blat.crc32, blat.name);
+  snprintf(linebuf, sizeof linebuf, "%d %X %s", i, blat.crc32, blat.name);
+
+  int display_width = display.getWidth();
+  int robot_width = pixel_robot.getWidth();
+
+  // i CRC32
+  display.setFont(ArialMT_Plain_10);
+  display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
+  // blat.name
+  display.setFont(ArialMT_Plain_16);
+  display.drawStringMaxWidth(robot_width+5, TEXT_FIRST_LINE, display_width-(robot_width+5)-1, blat.name);
+
+  // draw_pixel_robot
+  // PixelRobot uses 24-bits, so we lose 8 bits here.
+  // For my neighborheed, top 24 bits looked better so I took those.
+  // Maybe investigate spined robots
+  draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
+  display.display();
+  delay(1000);
+}
+
 
 // test with robot_num = 0x1af824;
 void draw_pixel_robot(uint32_t robot_num) {
@@ -292,9 +299,12 @@ void draw_pixel_robot(uint32_t robot_num) {
 }
 
 void draw_splash_screen() {
-  display.clear();
-  display.drawXbm(0 + 17, 0 + 17, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
-  display.drawXbm(128-32, 0 + 17, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
+  display.setFont(ArialMT_Plain_24);
+  display.drawStringMaxWidth(8, 0, 127, "Ego Blatano");
   display.display();
-  delay(1000);
+  delay(5000);
+  display.clear();
+  display.drawXbm(0 + 32, 0 + 32, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
+  display.drawXbm(128-32, 0 + 32, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
+  display.display();
 }
