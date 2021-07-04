@@ -19,7 +19,8 @@
 
 #include <Arduino_CRC32.h>
 
-#include "BLEScanner2.h"
+#include "Blatano.h"
+#include "PixelRobot.h"
 
 int scanTime = 5; //In seconds
 BLEScan* pBLEScan;
@@ -45,9 +46,6 @@ Arduino_CRC32 crc32;
 
 #define PRINTF(s_, ...) snprintf(linebuf, 64, (s_), ##__VA_ARGS__); Serial.println(linebuf)
 
-extern void test_crc();
-extern void setup_crc();
-extern char *robot_named_n(char *buf, uint32_t n);
 extern void enhance(blatano_t *blat);
 extern void printDevice(BLEAdvertisedDevice d);
 
@@ -63,12 +61,9 @@ void setup() {
   display.display();
   PRINTF("Startup");
 
-  PRINTF("Setup CRC");
-  setup_crc();
-#if 0
-  PRINTF("Testing CRC");
-  test_crc();
-  PRINTF("CRC Test Done");
+  PRINTF("Setup Names");
+  setup_names();
+#if TEST_NAMES
   PRINTF("Testing robot names");
   test_names();
   PRINTF("Robot names done");
@@ -222,7 +217,8 @@ void enhance(blatano_t *blat) {
     PRINTF("-- blat[0x%x] = 0x%x", i, blatp[i]);
   }
 #endif
-  robot_named_n(blat->name, blat->crc32);
+  robot_named_n(blat->name, blat->crc32); // robot_named_n doesn't cover the whole thing either
+  pixel_robot.draw(blat->crc32 && 0xffffff); // PixelRobot uses 24-bits, so we lose 8 bits here.
 }
 
 void loop() {
