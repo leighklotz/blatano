@@ -121,7 +121,6 @@ better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
 
 # Current status
-Current status is: Drawing implementation
 
 # Drawing Implementation
 Here are samples copied from
@@ -174,6 +173,9 @@ the time nothing this small. It doesn't quite fit in the slide viewer
 case, at least not with the USB programming cable, so I have only
 mocked it up a bit.  Once the code is done, I'll solder the USB power
 socket in place and move from there.
+
+# Screen Sample
+![](docs/PixelRobots/tibiyur.jpg)
 
 # References
 
