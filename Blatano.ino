@@ -303,8 +303,10 @@ void draw_splash_screen() {
   display.drawStringMaxWidth(8, 0, 127, "Ego Blatano");
   display.display();
   delay(5000);
+#if 0
   display.clear();
   display.drawXbm(0 + 32, 0 + 32, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
   display.drawXbm(128-32, 0 + 32, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
   display.display();
+#endif
 }
