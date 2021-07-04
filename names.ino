@@ -6,7 +6,6 @@
 // self-contained CRC32C that runs only on a 32-bit input
 // also included just for self test.  it's from
 // https://inbox.dpdk.org/dev/56BC4481.1060009@6wind.com/T/
-// Eventually we should #if it out
 
 #include <stdio.h>
 #include <stdint.h>
@@ -97,6 +96,22 @@ char *add_s4(char *buf, uint32_t nhash) {
   }
 }
 
+char *robot_named_n(char *buf, uint32_t nhash) {
+  // char *robot_named_n(char *buf, uint32_t n)
+  //  uint32_t nhash = get_crc32c(n);
+  // PRINTLNI("\nrobot named 0x%x: \n", n);
+  char *bbuf = buf;
+ 
+  bbuf = add_s1(bbuf, nhash); nhash /= S1_LEN;
+  bbuf = add_s2(bbuf, nhash); nhash /= S2_LEN;
+  bbuf = add_s3(bbuf, nhash); nhash /= S3_LEN;
+  bbuf = add_s4(bbuf, nhash); nhash /= S4_LEN;
+  *bbuf = '\0';
+  // PRINTLNIS("robot named 0x%x is %s\n", n, buf);
+  return buf;
+}
+
+#if TEST_NAMES
 // https://inbox.dpdk.org/dev/56BC4481.1060009@6wind.com/T/
 uint32_t crc32c_trivial(uint8_t *buffer, uint32_t length, uint32_t crc)
 {
@@ -123,22 +138,6 @@ uint32_t get_crc32c(uint32_t n) {
   return nhash;
 }
 
-char *robot_named_n(char *buf, uint32_t nhash) {
-  // char *robot_named_n(char *buf, uint32_t n)
-  //  uint32_t nhash = get_crc32c(n);
-  // PRINTLNI("\nrobot named 0x%x: \n", n);
-  char *bbuf = buf;
- 
-  bbuf = add_s1(bbuf, nhash); nhash /= S1_LEN;
-  bbuf = add_s2(bbuf, nhash); nhash /= S2_LEN;
-  bbuf = add_s3(bbuf, nhash); nhash /= S3_LEN;
-  bbuf = add_s4(bbuf, nhash); nhash /= S4_LEN;
-  *bbuf = '\0';
-  // PRINTLNIS("robot named 0x%x is %s\n", n, buf);
-  return buf;
-}
-
-#if TEST
 void assert_equal(uint32_t n, char *expected, char *got) {
   int ok = (! strcmp(expected, got));
   const char *status = ok ? "OK" : "BAD";
@@ -166,6 +165,7 @@ void test_crc() {
 }
 
 void test_names() {
+  test_crc();
   Serial.print("test_names");
   char buf[64];
   uint32_t big = 0xffffffff;
