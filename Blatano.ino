@@ -286,7 +286,7 @@ void displayDevice(int i, blatano_t blat) {
   // Maybe investigate spined robots
   draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
   display.display();
-  delay(2000);
+  delay(4000);
 }
 
 
