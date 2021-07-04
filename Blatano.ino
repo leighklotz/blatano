@@ -218,7 +218,7 @@ void enhance(blatano_t *blat) {
   }
 #endif
   robot_named_n(blat->name, blat->crc32); // robot_named_n doesn't cover the whole thing either
-  pixel_robot.draw(blat->crc32 && 0xffffff); // PixelRobot uses 24-bits, so we lose 8 bits here.
+  pixel_robot.draw(blat->crc32 & 0xffffff); // PixelRobot uses 24-bits, so we lose 8 bits here.
 }
 
 void loop() {
