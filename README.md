@@ -192,7 +192,7 @@ history during this project, plus a few select links.
 - [Espressif OSS](https://github.com/espressif)
 - [Pwnagotchi](https://pwnagotchi.ai/)
 - [Little Computer People](https://en.wikipedia.org/wiki/Little_Computer_People)
-- [Processing](https://processing.org/download/
+- [Processing](https://processing.org/download/)
 - [Arduino ESP32 Adafruit SSD1306 - Google Search](https://www.google.com/search?q=arduino+esp32+adafruit+ssd1306)
 - [ESP32 OLED Display with Arduino IDE | Random Nerd Tutorials](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/)
 - [In-Depth: Interface OLED Graphic Display Module with ESP32](https://lastminuteengineers.com/oled-display-esp32-tutorial/)
