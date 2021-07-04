@@ -175,6 +175,7 @@ mocked it up a bit.  Once the code is done, I'll solder the USB power
 socket in place and move from there.
 
 # Screen Sample
+![](docs/PixelRobots/tibiyur.jpg)
 
 # References
 
