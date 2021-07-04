@@ -209,7 +209,7 @@ history during this project, plus a few select links.
 - [Bluetooth Low Energy (BLE) identifier reference | diyActive](https://reelyactive.github.io/ble-identifier-reference.html)
 - [Welcome to The Public Listing For IEEE Standards Registration Authority](https://regauth.standards.ieee.org/standards-ra-web/pub/view.html#registries)
 - [00:60:80](https://macaddresschanger.com/bluetooth-mac-lookup/00%3A60%3A80)
-- [Neologisms of Stanislaw Lem - Wikibooks, open books for an open world](https://en.wikibooks.org/wiki/Neologisms_of_Stanislaw_Lem#Nano_robots_that_carry_medicines_directly_to_the_cells)
+- [Neologisms of Stanislaw Lem - Wikibooks, open books for an open world](https://en.wikibooks.org/wiki/Neologisms_of_Stanislaw_Lem)
 - [Harald Bluetooth - Wikipedia](https://en.wikipedia.org/wiki/Harald_Bluetooth)
 - [Adafruit_SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
 - [bip-0039.mediawiki](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
