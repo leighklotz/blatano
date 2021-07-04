@@ -278,7 +278,7 @@ void displayDevice(int i, blatano_t blat) {
   display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
   // blat.name
   display.setFont(ArialMT_Plain_16);
-  display.drawStringMaxWidth(robot_width+5, TEXT_FIRST_LINE, display_width-(robot_width+5)-1, blat.name);
+  display.drawStringMaxWidth(robot_width+5, TEXT_FIRST_LINE, display_width-(robot_width+5)-5, blat.name);
 
   // draw_pixel_robot
   // PixelRobot uses 24-bits, so we lose 8 bits here.
@@ -286,7 +286,7 @@ void displayDevice(int i, blatano_t blat) {
   // Maybe investigate spined robots
   draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
   display.display();
-  delay(1000);
+  delay(2000);
 }
 
 
