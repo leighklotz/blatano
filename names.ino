@@ -1,7 +1,18 @@
+// Leigh Klotz Sat 03 Jul 2021 05:47:39 PM PDT
+//
+// This is my algorithm for making robot names out of a 32 bit
+// integer such as from CRC32C check.
+//
+// self-contained CRC32C that runs only on a 32-bit input
+// also included just for self test.  it's from
+// https://inbox.dpdk.org/dev/56BC4481.1060009@6wind.com/T/
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "names.h"
 
 const char *CONSONANTS="kgstnvhbpmyrlw";
 const char *VOWELS="aeiou";
@@ -18,8 +29,7 @@ int S2_LEN;
 int S3_LEN;
 int S4_LEN;
 
-void setup_crc() {
-  Serial.println("setup_crc");
+void setup_names() {
   VOWELS_LEN=strlen(VOWELS);
   CONSONANTS_LEN=strlen(CONSONANTS);
   SUFFIXES_LEN = sizeof(SUFFIXES) / sizeof(SUFFIXES[0]);
@@ -29,7 +39,6 @@ void setup_crc() {
   S2_LEN = (NUM_SYLLABLES+1) * (strlen(NR)+3);
   S3_LEN = S1_LEN;
   S4_LEN = (sizeof(SUFFIXES) / sizeof(char *)) + 5;
-  Serial.println("setup_crc_done");
 }
 
 char *add_syllable(char *buf, uint32_t s) {
@@ -87,6 +96,22 @@ char *add_s4(char *buf, uint32_t nhash) {
   }
 }
 
+char *robot_named_n(char *buf, uint32_t nhash) {
+  // char *robot_named_n(char *buf, uint32_t n)
+  //  uint32_t nhash = get_crc32c(n);
+  // PRINTLNI("\nrobot named 0x%x: \n", n);
+  char *bbuf = buf;
+ 
+  bbuf = add_s1(bbuf, nhash); nhash /= S1_LEN;
+  bbuf = add_s2(bbuf, nhash); nhash /= S2_LEN;
+  bbuf = add_s3(bbuf, nhash); nhash /= S3_LEN;
+  bbuf = add_s4(bbuf, nhash); nhash /= S4_LEN;
+  *bbuf = '\0';
+  // PRINTLNIS("robot named 0x%x is %s\n", n, buf);
+  return buf;
+}
+
+#if TEST_NAMES
 // https://inbox.dpdk.org/dev/56BC4481.1060009@6wind.com/T/
 uint32_t crc32c_trivial(uint8_t *buffer, uint32_t length, uint32_t crc)
 {
@@ -113,22 +138,6 @@ uint32_t get_crc32c(uint32_t n) {
   return nhash;
 }
 
-char *robot_named_n(char *buf, uint32_t nhash) {
-  // char *robot_named_n(char *buf, uint32_t n)
-  //  uint32_t nhash = get_crc32c(n);
-  // PRINTLNI("\nrobot named 0x%x: \n", n);
-  char *bbuf = buf;
- 
-  bbuf = add_s1(bbuf, nhash); nhash /= S1_LEN;
-  bbuf = add_s2(bbuf, nhash); nhash /= S2_LEN;
-  bbuf = add_s3(bbuf, nhash); nhash /= S3_LEN;
-  bbuf = add_s4(bbuf, nhash); nhash /= S4_LEN;
-  *bbuf = '\0';
-  // PRINTLNIS("robot named 0x%x is %s\n", n, buf);
-  return buf;
-}
-
-#if TEST
 void assert_equal(uint32_t n, char *expected, char *got) {
   int ok = (! strcmp(expected, got));
   const char *status = ok ? "OK" : "BAD";
@@ -156,6 +165,7 @@ void test_crc() {
 }
 
 void test_names() {
+  test_crc();
   Serial.print("test_names");
   char buf[64];
   uint32_t big = 0xffffffff;
