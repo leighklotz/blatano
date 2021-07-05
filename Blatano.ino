@@ -317,7 +317,7 @@ void bleScan(BLEScanResults foundDevices) {
     displayWifi();
     displayDevice(i, blat);
     display.display();
-    delay(4000);
+    delay(i == k-1 ? 2000 : 4000);
   }
   PRINTF("ble+wifi done");
 }
