@@ -179,7 +179,7 @@ void printDevice(BLEAdvertisedDevice d) {
   }
 
   if (d.haveServiceUUID()) {
-    PRINTF("- ServiceUUID: %s\b", d.getServiceUUID().toString().c_str());
+    PRINTF("- ServiceUUID: %s", d.getServiceUUID().toString().c_str());
   }
 
   if (d.haveTXPower()) {
