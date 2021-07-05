@@ -12,6 +12,8 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "SSD1306Wire.h"
+#include <WiFi.h>
+
 #define OLED_SCL       22
 #define OLED_SDA       21
 
@@ -34,6 +36,7 @@
 #include "blatano-github-qr-xbm.h"
 #endif
 
+int n_wifi_found = 0;
 int scanTime = 10; //In seconds
 BLEScan* pBLEScan;
 
@@ -60,7 +63,6 @@ Arduino_CRC32 crc32;
 
 const int ROBOT_SCALE = 5;
 PixelRobot pixel_robot;
-memory_t memory[32];
 
 void draw_pixel_robot(uint32_t robot_num);
 void enhance(blatano_t *blat);
@@ -90,6 +92,10 @@ void setup() {
   pixel_robot.setScales(5, 5);
   pixel_robot.setMargins(1, 0);
   pixel_robot.generate(0);
+
+  PRINTF("Setup WiFi");
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
 
   PRINTF("Create Scanner");
   BLEDevice::init("Blatano_0x00");
@@ -248,11 +254,43 @@ void enhance(blatano_t *blat) {
 
 void loop() {
   PRINTF("Scanning");
-  BLEScanResults foundDevices = pBLEScan->start(scanTime, false);
-  {
-    display.clear();
-    display.display();
+  wifiScan();
+  bleScan();
+}
+
+void wifiScan() {
+  PRINTF("scan start");
+  // WiFi.scanNetworks will return the number of networks found
+  n_wifi_found = WiFi.scanNetworks(false, true);
+  PRINTF("Wifi found %d networks", n_wifi_found);
+}
+
+void displayWifi() {
+  for (int i = 0; i < n_wifi_found; ++i) {
+#if 0
+    PRINTF("- wifi %d: %s (%d %d) %s %s", 
+	   i, WiFi.SSID(i).c_str(),
+	   WiFi.channel(i),
+	   WiFi.RSSI(i), 
+	   WiFi.BSSIDstr(i).c_str(),
+	   ((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?"O":"X"));
+#endif
+    int32_t n_channels = 10;
+    int16_t width = 10;
+    int16_t x = min(WiFi.channel(i), n_channels) * width;
+    int32_t r = WiFi.RSSI(i);
+    r=-25;
+    int16_t height = 1+(min(max(r, -90), -30) + 90)/8; // 1-8, higher means stronger
+    int16_t y = 64-height;
+    display.drawRect(x, y, width, height);
+    display.drawLine(0, 63, 128, 63);
   }
+}
+
+void bleScan() {
+  BLEScanResults foundDevices = pBLEScan->start(scanTime, false);
+  display.clear();
+  display.display();
 
   PRINTF("Found: %d", foundDevices.getCount());
   int k = foundDevices.getCount();
@@ -261,12 +299,17 @@ void loop() {
   int robot_width = pixel_robot.getWidth();
   for (int i = 0; i < k; i++)  {
     blatano_t blat = {};	// {} to clear to zero
+    PRINTF("i=%d\n", i);
     display.clear();
     int progress = k==1 ? 1 : (i * 100/(k-1));
     display.drawProgressBar(robot_width+1, 0, display_width-(robot_width+1)-1, TEXT_FIRST_LINE, progress);
     processDevice(&blat, &foundDevices, i, &dup_index);
+    displayWifi();
     displayDevice(i, blat);
+    display.display();
+    delay(4000);
   }
+  PRINTF("ble+wifi done");
   // delete results fromBLEScan buffer to release memory
   pBLEScan->clearResults();   
 }
@@ -278,7 +321,7 @@ void displayDevice(int i, blatano_t blat) {
   int display_width = display.getWidth();
   int robot_width = pixel_robot.getWidth();
 
-#if 0
+#ifdef DISPLAY_CRC32
   // i CRC32
   display.setFont(ArialMT_Plain_10);
   display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
@@ -293,8 +336,6 @@ void displayDevice(int i, blatano_t blat) {
   // For my neighborheed, top 24 bits looked better so I took those.
   // Maybe investigate spined robots
   draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
-  display.display();
-  delay(4000);
 }
 
 

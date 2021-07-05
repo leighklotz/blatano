@@ -20,8 +20,3 @@ struct blatano_t {
   int tx_power;
   int rssi;
 };
-
-struct memory_t {
-  uint32_t crc32;
-  int count;
-};
