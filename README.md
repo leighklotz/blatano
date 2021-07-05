@@ -8,14 +8,13 @@ rendered in our tongue), and a drawing. Eschewing Dr. Seuss's "Thing
 1, Thing 2" approach, Blatano uses a way of naming entities that
 distills all its knowledge down into a few bits of information, which
 it then further illustrates for us as a drawing and a few flickering
-bits of variations. Similarly, the drawing may not resemble you or
-your smart refrigerator, but rest if you see a name and robot drawing
+bits of variations. Blatano also has a sense of location, and draws
+its view of the radio horizon along the bottom of the display.  The
+drawings may not resemble you, your landscaping, or your smart
+refrigerator, but rest if you see a name and robot drawing
 consistently associated with your presence, rest assured it is an
-accurate representation of how Blatano perceives you.
-
-Blatano converts the Bluetooth packets it can read into an small
-amount of data, an information summary with everything it can remember
-about the entity it is hearing from.
+accurate representation of how Blatano perceives you. You may get a
+view into the sense of closeness or distance from Blatano as well.
 
 Since Blatano's electromagnetic vision is not as rich as ours, it
 sometimes confuses what we would recognize as two distinct entities,
@@ -47,6 +46,10 @@ or embedding? TF-IDF? Who knows, maybe you?
 Enjoy Blatano.
 
 # Hardware and Tech Stack
+Blatano converts the Bluetooth and WiFi packets it can read into an small
+amount of data, an information summary with everything it can remember
+about the entity it is hearing from.
+
 There are a projects that use ESP32 BLE Scanner, but all have
 different aims, though the tech stack is similar.
 
@@ -58,6 +61,8 @@ tried in the rest of the web, links below.
 - Hash Monster: crack wifi
 - CovidSniffer: nearby covid beacon counter
 
+For WiFi, the display is an abbreviated 2.4 GHz WiFi channel spectrum
+graph showing the strongest signal on each channel.
 
 # Sensing
 
