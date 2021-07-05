@@ -135,7 +135,7 @@ The robots show in small, medium, and large sizes, dependong on the
 received signal strength.  The theoretically useful range for
 BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
 only the largest three are useful, so after a brief population survey, I picked
-the range -90 to -80 as medium, with above and below falloug to the other two sizes.
+the range -90 to -80 as medium, with above and below falling to the other two sizes.
 
 # Current status
 
