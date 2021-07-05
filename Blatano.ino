@@ -53,9 +53,6 @@ BLEUUID COVID_TRACKER_SERVICEUUID = BLEUUID("0000fd6f-0000-1000-8000-00805f9b34f
 BLEUUID GATT_SERVICEUUID = BLEUUID("e20a39f4-73f5-4bc4-a12f-17d1ad07a961");
 BLEUUID FITBIT_CHARGE_3_SERVICEUUID = BLEUUID("adabfb00-6e7d-4601-bda2-bffaa68956ba");
 
-const int16_t MIN_BLE_DB = -105;
-const int16_t MAX_BLE_DB = -60;
-
 const int TEXT_FIRST_LINE = 8;
 const int LEADING = 12;
 char linebuf[128];		// 128 characters ought to be enough for anyone
@@ -64,11 +61,22 @@ Arduino_CRC32 crc32;
 
 #define PRINTF(s_, ...) snprintf(linebuf, 128, (s_), ##__VA_ARGS__); Serial.println(linebuf)
 
-const int MIN_ROBOT_SCALE = 3;
-const int MAX_ROBOT_SCALE = 5;
 PixelRobot pixel_robot;
 int16_t robot_max_width;
 int16_t robot_max_height;
+// Theoretically useful:
+// const int16_t MIN_BLE_DB = -105;
+// const int16_t MAX_BLE_DB = -60;
+// Practically seen:
+// We just want three sizes: weak, normal, strong
+const int16_t MIN_BLE_DB = -90;
+const int16_t MAX_BLE_DB = -80;
+// weak=3 normal=4 strong=5
+const int MIN_ROBOT_SCALE = 3;
+const int MAX_ROBOT_SCALE = 5;
+
+const int16_t MIN_WIFI_RSSI=-90;
+const int16_t MAX_WIFI_RSSI=-30;
 
 void draw_pixel_robot(uint32_t robot_num);
 void enhance(blatano_t *blat);
@@ -288,8 +296,10 @@ void displayWifi() {
     int32_t n_channels = 10;
     int16_t width = 10;
     int16_t x = min(WiFi.channel(i), n_channels) * width;
-    int32_t r = WiFi.RSSI(i)-25;
-    int16_t height = map(WiFi.RSSI(i), -90, -30, 1, 8); // 1-8, higher means stronger
+    // convert rssi to 1-8, higher means stronger.
+    const int16_t min_height = 1;
+    const int16_t max_height = 8;
+    int16_t height = constrain(map(WiFi.RSSI(i), MIN_WIFI_RSSI, MAX_WIFI_RSSI, min_height, max_height), min_height, max_height);
 #if 0
     PRINTF("- WiFi channel=%d rssi=%d height=%d", WiFi.channel(i), WiFi.RSSI(i), height);
 #endif
@@ -358,7 +368,8 @@ void displayDevice(int i, blatano_t blat) {
   // For my neighborhood, top 24 bits looked better so I took those.
   // Maybe investigate spined robots.
   {
-    int16_t size = map(blat.rssi, MIN_BLE_DB, MAX_BLE_DB, MIN_ROBOT_SCALE, MAX_ROBOT_SCALE);
+    int16_t size = constrain(map(blat.rssi, MIN_BLE_DB, MAX_BLE_DB, MIN_ROBOT_SCALE, MAX_ROBOT_SCALE),
+			     MIN_ROBOT_SCALE, MAX_ROBOT_SCALE);
 #if 0
     PRINTF("size = map(blat.rssi=%d, MIN_BLE_DB=%d, MAX_BLE_DB=%d, MIN_ROBOT_SCALE=%d, MAX_ROBOT_SCALE=%d",
 	   blat.rssi, MIN_BLE_DB, MAX_BLE_DB, MIN_ROBOT_SCALE, MAX_ROBOT_SCALE);
@@ -370,7 +381,7 @@ void displayDevice(int i, blatano_t blat) {
 
 // tested with robot_num = 0x1af824;
 void draw_pixel_robot(uint32_t robot_num, int16_t robot_scale) {
-  PRINTF("- robot_num %x robot_scale=%d", robot_num, robot_scale);
+  PRINTF("- draw_pixel_robot robot_num %x robot_scale=%d", robot_num, robot_scale);
   pixel_robot.clear();
   pixel_robot.generate(robot_num);
   pixel_robot.setScales(robot_scale, robot_scale);
