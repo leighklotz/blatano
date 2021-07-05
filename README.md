@@ -62,7 +62,8 @@ tried in the rest of the web, links below.
 - CovidSniffer: nearby covid beacon counter
 
 Landscape at the bottom of the screen is an abbreviated 2.4 GHz WiFi
-channel spectrum graph showing the strongest signal on each channel.
+channel spectrum graph showing the signals on each channel. Multiple
+APs of the same channel with similar signal strength aren't distinguishable.
 
 # Sensing
 
@@ -128,6 +129,10 @@ algorithm. Unfortunately, the code is not useful (ancient C#), but the
 algorithm is appealing. A 4-byte code giving 4-part robots would be a
 better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
+
+
+The robots show in small, medium, and large sizes, dependong on the
+received signal strength.
 
 # Current status
 
