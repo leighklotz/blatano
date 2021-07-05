@@ -187,6 +187,7 @@ These references consist of a near record of my browsing
 history during this project, plus a few select links.
 
 
+- [Scuttle Blatano](https://scuttle.klotz.me/search/all/Blatano)
 - [Arduino](https://arduino.cc)
 - [Adafruit](https://adafruit.com)
 - [Espressif OSS](https://github.com/espressif)
