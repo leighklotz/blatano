@@ -10,7 +10,7 @@ distills all its knowledge down into a few bits of information, which
 it then further illustrates for us as a drawing and a few flickering
 bits of variations. Blatano also has a sense of location, and draws
 its view of the radio horizon along the bottom of the display.  The
-drawings may not resemble you, your landscaping, or your smart
+drawings may not resemble you, your landscape, or your smart
 refrigerator, but rest if you see a name and robot drawing
 consistently associated with your presence, rest assured it is an
 accurate representation of how Blatano perceives you. You may get a
@@ -61,8 +61,8 @@ tried in the rest of the web, links below.
 - Hash Monster: crack wifi
 - CovidSniffer: nearby covid beacon counter
 
-For WiFi, the display is an abbreviated 2.4 GHz WiFi channel spectrum
-graph showing the strongest signal on each channel.
+Landscape at the bottom of the screen is an abbreviated 2.4 GHz WiFi
+channel spectrum graph showing the strongest signal on each channel.
 
 # Sensing
 
