@@ -150,7 +150,7 @@ I found Dave Bollonger's original Processing code as well, on the WayBack Machin
 link from Jake.dk. It's copied into the docs/PixelRobots/ directory.
 If you remove one framerate config setting, it runs in Processing today.
 
-# Physical Embodiement
+# Physical Embodiment
 
 I wanted some type of Brazil-like TV display with a magnifying lens in
 front. During the project, some small 3D printed TV holders for ESP32
