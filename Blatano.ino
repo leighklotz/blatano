@@ -28,13 +28,9 @@
 #include "Blatano.h"
 #include "PixelRobot.h"
 
-#if 0
-#include "wifixbm.h"
-#include "bluetoothxbm.h"
-#endif
-#if 1
+#include "wifi-logo-icon.h"
+#include "bluetooth-logo-icon.h"
 #include "blatano-github-qr-xbm.h"
-#endif
 
 int n_wifi_found = 0;
 int scanTime = 10; //In seconds
@@ -61,8 +57,22 @@ Arduino_CRC32 crc32;
 
 #define PRINTF(s_, ...) snprintf(linebuf, 128, (s_), ##__VA_ARGS__); Serial.println(linebuf)
 
-const int ROBOT_SCALE = 5;
 PixelRobot pixel_robot;
+int16_t robot_max_width;
+int16_t robot_max_height;
+// Theoretically useful:
+// const int16_t MIN_BLE_DB = -105;
+// const int16_t MAX_BLE_DB = -60;
+// Practically seen:
+// We just want three sizes: weak, normal, strong
+const int16_t MIN_BLE_DB = -90;
+const int16_t MAX_BLE_DB = -80;
+// weak=3 normal=4 strong=5
+const int MIN_ROBOT_SCALE = 3;
+const int MAX_ROBOT_SCALE = 5;
+
+const int16_t MIN_WIFI_RSSI=-90;
+const int16_t MAX_WIFI_RSSI=-30;
 
 void draw_pixel_robot(uint32_t robot_num);
 void enhance(blatano_t *blat);
@@ -89,9 +99,11 @@ void setup() {
   
   PRINTF("Setup PixelRobot");
   pixel_robot = PixelRobot();
-  pixel_robot.setScales(5, 5);
+  pixel_robot.setScales(MAX_ROBOT_SCALE, MAX_ROBOT_SCALE);
   pixel_robot.setMargins(1, 0);
   pixel_robot.generate(0);
+  robot_max_width = pixel_robot.getWidth();
+  robot_max_height = pixel_robot.getHeight();
 
   PRINTF("Setup WiFi");
   WiFi.mode(WIFI_STA);
@@ -111,7 +123,7 @@ void setup() {
 void processDevice(blatano_t *pblat, BLEScanResults *foundDevices, int i, uint8_t *pdup_index) {
   BLEAdvertisedDevice d = foundDevices->getDevice(i);
 #if 1
-  printDevice(d);
+  printDevice(i, d);
 #endif
   convert(&d, pblat, pdup_index);
   enhance(pblat);
@@ -146,8 +158,8 @@ const char* addressTypeToString(esp_ble_addr_type_t type) {
   }
 }
 
-void printDevice(BLEAdvertisedDevice d) {
-  PRINTF("* %s", d.getAddress().toString().c_str());
+void printDevice(int i, BLEAdvertisedDevice d) {
+  PRINTF("* Device %d %s", i, d.getAddress().toString().c_str());
 
   char *service_type_names[] = { "UNKNOWN", "COVID_TRACKER", "GATT", "FITBIT_CHARGE_3" };
   int s_type = (int)getWellKnownServiceType(&d);
@@ -253,13 +265,15 @@ void enhance(blatano_t *blat) {
 }
 
 void loop() {
-  PRINTF("Scanning");
-  wifiScan();
-  bleScan();
+  PRINTF("Loop");
+  BLEScanResults foundDevices = pBLEScan->start(scanTime, false); // is async maybe
+  wifiScan();			// is not async, maybe
+  bleScan(foundDevices);	// is sync
+  pBLEScan->clearResults();     // delete results fromBLEScan buffer to release memory
 }
 
 void wifiScan() {
-  PRINTF("scan start");
+  PRINTF("wifiScan");
   // WiFi.scanNetworks will return the number of networks found
   n_wifi_found = WiFi.scanNetworks(false, true);
   PRINTF("Wifi found %d networks", n_wifi_found);
@@ -278,85 +292,122 @@ void displayWifi() {
     int32_t n_channels = 10;
     int16_t width = 10;
     int16_t x = min(WiFi.channel(i), n_channels) * width;
-    int32_t r = WiFi.RSSI(i);
-    r=-25;
-    int16_t height = 1+(min(max(r, -90), -30) + 90)/8; // 1-8, higher means stronger
+    // convert rssi to 1-8, higher means stronger.
+    const int16_t min_height = 1;
+    const int16_t max_height = 8;
+    int16_t height = constrain(map(WiFi.RSSI(i), MIN_WIFI_RSSI, MAX_WIFI_RSSI, min_height, max_height), min_height, max_height);
+#if 0
+    PRINTF("- WiFi channel=%d rssi=%d height=%d", WiFi.channel(i), WiFi.RSSI(i), height);
+#endif
     int16_t y = 64-height;
     display.drawRect(x, y, width, height);
+#if 0
+    PRINTF("- rssi=%d display.drawRect(%d, %d, %d, %d)", WiFi.RSSI(i), x, y, width, height);
+#endif
+    // draw landscape at bottom
     display.drawLine(0, 63, 128, 63);
   }
 }
 
-void bleScan() {
-  BLEScanResults foundDevices = pBLEScan->start(scanTime, false);
-  display.clear();
-  display.display();
-
-  PRINTF("Found: %d", foundDevices.getCount());
+void bleScan(BLEScanResults foundDevices) {
+  PRINTF("BLEScan Found: %d", foundDevices.getCount());
   int k = foundDevices.getCount();
   uint8_t dup_index = 0;
   int display_width = display.getWidth();
-  int robot_width = pixel_robot.getWidth();
   for (int i = 0; i < k; i++)  {
     blatano_t blat = {};	// {} to clear to zero
-    PRINTF("i=%d\n", i);
     display.clear();
     int progress = k==1 ? 1 : (i * 100/(k-1));
-    display.drawProgressBar(robot_width+1, 0, display_width-(robot_width+1)-1, TEXT_FIRST_LINE, progress);
+    display.drawProgressBar(robot_max_width+1, 0, display_width-(robot_max_width+1)-1, TEXT_FIRST_LINE, progress);
     processDevice(&blat, &foundDevices, i, &dup_index);
     displayWifi();
     displayDevice(i, blat);
     display.display();
-    delay(4000);
+    delay(i == k-1 ? 2000 : 4000);
   }
   PRINTF("ble+wifi done");
-  // delete results fromBLEScan buffer to release memory
-  pBLEScan->clearResults();   
 }
 
 void displayDevice(int i, blatano_t blat) {
-  PRINTF("- %d %X %s\n", i, blat.crc32, blat.name);
-  snprintf(linebuf, sizeof linebuf, "%d %X %s", i, blat.crc32, blat.name);
-
-  int display_width = display.getWidth();
-  int robot_width = pixel_robot.getWidth();
-
+#if 1
+  PRINTF("- %d %X %s", i, blat.crc32, blat.name);
+#endif
 #ifdef DISPLAY_CRC32
   // i CRC32
+  snprintf(linebuf, sizeof linebuf, "%d %X %s", i, blat.crc32, blat.name);
   display.setFont(ArialMT_Plain_10);
-  display.drawStringf(robot_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
+  display.drawStringf(robot_max_width+10, 64-LEADING, linebuf, "%d %x",i, blat.crc32);
 #endif
+
+  int display_width = display.getWidth();
+  int display_height = display.getHeight();
 
   // blat.name
   display.setFont(ArialMT_Plain_16);
-  display.drawStringMaxWidth(robot_width+3, TEXT_FIRST_LINE, display_width-(robot_width+3), blat.name);
+  display.drawStringMaxWidth(robot_max_width+3, TEXT_FIRST_LINE, display_width-(robot_max_width+3), blat.name);
+
+  // draw signal strength
+#if 0
+  // first calculate robot_scale from blat.rssi
+  // df["RSSI"].min() -> -105; df["RSSI"].max() -> -61
+  {
+    int16_t asu = map(blat.rssi, MIN_BLE_DB, MAX_BLE_DB, 63, 0);
+    PRINTF("- BT rssi=%d asu=%d", blat.rssi, asu);
+    // draw blat.RSSI
+    // df["RSSI"].min() -> -105; df["RSSI"].max() -> -61
+    display.drawLine(display_width=1, display_height-1, display_width-1, asu);
+  }
+#endif
 
   // draw_pixel_robot
   // PixelRobot uses 24-bits, so we lose 8 bits here.
-  // For my neighborheed, top 24 bits looked better so I took those.
-  // Maybe investigate spined robots
-  draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8);
+  // For my neighborhood, top 24 bits looked better so I took those.
+  // Maybe investigate spined robots.
+  {
+    int16_t size = constrain(map(blat.rssi, MIN_BLE_DB, MAX_BLE_DB, MIN_ROBOT_SCALE, MAX_ROBOT_SCALE),
+			     MIN_ROBOT_SCALE, MAX_ROBOT_SCALE);
+#if 0
+    PRINTF("size = map(blat.rssi=%d, MIN_BLE_DB=%d, MAX_BLE_DB=%d, MIN_ROBOT_SCALE=%d, MAX_ROBOT_SCALE=%d",
+	   blat.rssi, MIN_BLE_DB, MAX_BLE_DB, MIN_ROBOT_SCALE, MAX_ROBOT_SCALE);
+#endif
+    draw_pixel_robot((blat.crc32 & 0xffffff00) >> 8, size);
+  }
 }
 
 
-// test with robot_num = 0x1af824;
-void draw_pixel_robot(uint32_t robot_num) {
-  PRINTF("- robot_num %x\n", robot_num);
+// tested with robot_num = 0x1af824;
+void draw_pixel_robot(uint32_t robot_num, int16_t robot_scale) {
+  PRINTF("- draw_pixel_robot robot_num %x robot_scale=%d", robot_num, robot_scale);
   pixel_robot.clear();
   pixel_robot.generate(robot_num);
-  pixel_robot.draw(0, 0);//1*ROBOT_SCALE
+  pixel_robot.setScales(robot_scale, robot_scale);
+  int16_t robot_width = pixel_robot.getWidth();
+  int16_t robot_height = pixel_robot.getHeight();
+  pixel_robot.draw((robot_max_width - robot_width)/2,
+		   (robot_max_height - robot_height)/2);
 }
 
 void draw_splash_screen() {
+  // Self Announcement
   display.setFont(ArialMT_Plain_16);
   display.drawStringMaxWidth(0, 0, 64, "Ego Blatano");
-  display.drawXbm(64, 0, blatano_github_width, blatano_github_height, blatano_github_bits);
+
+  // Source on GitHub QR Code
+  display.drawXbm(64, 0, 
+		  blatano_github_width, blatano_github_height, blatano_github_bits);
+
+  // Cheezy WiFi icon
+  display.drawXbm(4, 64-wifi_logo_icon_height,
+		  wifi_logo_icon_width, wifi_logo_icon_height, wifi_logo_icon_bits);
+
+  // Cheezy Bluetooth icon
+  display.drawXbm(64-bluetooth_logo_icon_width-8, 64-bluetooth_logo_icon_height,
+		  bluetooth_logo_icon_width, bluetooth_logo_icon_height, bluetooth_logo_icon_bits);
+
+
   display.display();
-  delay(5000);
-#if 0
-  display.clear();
-  display.drawXbm(0 + 32, 0 + 32, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
-  display.drawXbm(128-32, 0 + 32, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
-  display.display();
-#endif
+  delay(2000);
+
+
+
 }

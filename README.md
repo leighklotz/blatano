@@ -8,14 +8,13 @@ rendered in our tongue), and a drawing. Eschewing Dr. Seuss's "Thing
 1, Thing 2" approach, Blatano uses a way of naming entities that
 distills all its knowledge down into a few bits of information, which
 it then further illustrates for us as a drawing and a few flickering
-bits of variations. Similarly, the drawing may not resemble you or
-your smart refrigerator, but rest if you see a name and robot drawing
+bits of variations. Blatano also has a sense of location, and draws
+its view of the radio horizon along the bottom of the display.  The
+drawings may not resemble you, your landscape, or your smart
+refrigerator, but rest if you see a name and robot drawing
 consistently associated with your presence, rest assured it is an
-accurate representation of how Blatano perceives you.
-
-Blatano converts the Bluetooth packets it can read into an small
-amount of data, an information summary with everything it can remember
-about the entity it is hearing from.
+accurate representation of how Blatano perceives you. You may get a
+view into the sense of closeness or distance from Blatano as well.
 
 Since Blatano's electromagnetic vision is not as rich as ours, it
 sometimes confuses what we would recognize as two distinct entities,
@@ -47,6 +46,10 @@ or embedding? TF-IDF? Who knows, maybe you?
 Enjoy Blatano.
 
 # Hardware and Tech Stack
+Blatano converts the Bluetooth and WiFi packets it can read into an small
+amount of data, an information summary with everything it can remember
+about the entity it is hearing from.
+
 There are a projects that use ESP32 BLE Scanner, but all have
 different aims, though the tech stack is similar.
 
@@ -58,6 +61,9 @@ tried in the rest of the web, links below.
 - Hash Monster: crack wifi
 - CovidSniffer: nearby covid beacon counter
 
+Landscape at the bottom of the screen is an abbreviated 2.4 GHz WiFi
+channel spectrum graph showing the signals on each channel. Multiple
+APs of the same channel with similar signal strength aren't distinguishable.
 
 # Sensing
 
@@ -124,6 +130,13 @@ algorithm is appealing. A 4-byte code giving 4-part robots would be a
 better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
 
+
+The robots show in small, medium, and large sizes, dependong on the
+received signal strength.  The theoretically useful range for
+BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
+only the largest three are useful, so after a brief population survey, I picked
+the range -90 to -80 as medium, with above and below falling to the other two sizes.
+
 # Current status
 
 # Drawing Implementation
@@ -150,7 +163,7 @@ I found Dave Bollonger's original Processing code as well, on the WayBack Machin
 link from Jake.dk. It's copied into the docs/PixelRobots/ directory.
 If you remove one framerate config setting, it runs in Processing today.
 
-# Physical Embodiement
+# Physical Embodiment
 
 I wanted some type of Brazil-like TV display with a magnifying lens in
 front. During the project, some small 3D printed TV holders for ESP32
