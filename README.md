@@ -192,8 +192,6 @@ mocked it up a bit.  Once the code is done, I'll solder the USB power
 socket in place and move from there.
 
 # Screen Samples
-![](docs/PixelRobots/tibiyur.jpg)
-
 ![](docs/photos/IMG_20210705_174908_640.jpg)
 
 ![](docs/photos/IMG_20210705_174922_640.jpg)
