@@ -28,13 +28,9 @@
 #include "Blatano.h"
 #include "PixelRobot.h"
 
-#if 0
-#include "wifixbm.h"
-#include "bluetoothxbm.h"
-#endif
-#if 1
+#include "wifi-logo-icon.h"
+#include "bluetooth-logo-icon.h"
 #include "blatano-github-qr-xbm.h"
-#endif
 
 int n_wifi_found = 0;
 int scanTime = 10; //In seconds
@@ -392,15 +388,26 @@ void draw_pixel_robot(uint32_t robot_num, int16_t robot_scale) {
 }
 
 void draw_splash_screen() {
+  // Self Announcement
   display.setFont(ArialMT_Plain_16);
   display.drawStringMaxWidth(0, 0, 64, "Ego Blatano");
-  display.drawXbm(64, 0, blatano_github_width, blatano_github_height, blatano_github_bits);
+
+  // Source on GitHub QR Code
+  display.drawXbm(64, 0, 
+		  blatano_github_width, blatano_github_height, blatano_github_bits);
+
+  // Cheezy WiFi icon
+  display.drawXbm(4, 64-wifi_logo_icon_height,
+		  wifi_logo_icon_width, wifi_logo_icon_height, wifi_logo_icon_bits);
+
+  // Cheezy Bluetooth icon
+  display.drawXbm(64-bluetooth_logo_icon_width-8, 64-bluetooth_logo_icon_height,
+		  bluetooth_logo_icon_width, bluetooth_logo_icon_height, bluetooth_logo_icon_bits);
+
+
   display.display();
   delay(2000);
-#if 0
-  display.clear();
-  display.drawXbm(0 + 32, 0 + 32, WiFi_Logo_width, WiFi_Logo_height, WiFi_Logo_bits);
-  display.drawXbm(128-32, 0 + 32, bluetooth_logo_width, bluetooth_logo_height, bluetooth_logo_bits);
-  display.display();
-#endif
+
+
+
 }
