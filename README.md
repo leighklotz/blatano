@@ -192,20 +192,8 @@ mocked it up a bit.  Once the code is done, I'll solder the USB power
 socket in place and move from there.
 
 # Screen Samples
-<img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174908_640.jpg">
-<img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174922_640.jpg">
-
-![](docs/photos/IMG_20210705_174908_640.jpg)
-
-![](docs/photos/IMG_20210705_174922_640.jpg)
-
-![](docs/photos/IMG_20210705_174925.640.jpg)
-
-![](docs/photos/IMG_20210705_174929_640.jpg)
-
-![](docs/photos/IMG_20210705_174938_640.jpg)
-
-![](docs/photos/IMG_20210705_174941_640.jpg)
+<img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174925.640.jpg)
+<img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174929_640.jpg) <img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174938_640.jpg) <img width="200px" alt="Screen sample" src="docs/photos/IMG_20210705_174941_640.jpg)
 
 # References
 
