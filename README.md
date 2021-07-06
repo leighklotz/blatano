@@ -137,8 +137,6 @@ BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
 only the largest three are useful, so after a brief population survey, I picked
 the range -90 to -80 as medium, with above and below falling to the other two sizes.
 
-# Current status
-
 # Drawing Implementation
 Here are samples copied from
 Jake.dk's copy of Dave Bollinger's illustrations, via Archive.org
@@ -197,6 +195,12 @@ socket in place and move from there.
 
 # Compilation
 Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
+
+# Current status
+
+- Need to attach leads to provide power through USB-C breakot.
+- Need to attach to case and route cables.
+- How to plan for update in case? No?
 
 # References
 
