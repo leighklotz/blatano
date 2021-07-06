@@ -251,7 +251,7 @@ history during this project, plus a few select links.
 - [pixel art 8 bit robot - Google Search](https://www.google.com/search?q=pixel+art+8+bit+robot)
 - [free robot icon 32 pixel - Google Search](https://www.google.com/search?q=free%20robot%20icon%2032%20pixel)
 - [Robot Icons - 23,270 free vector icons](https://www.flaticon.com/free-icons/robot)
-- [python draw small robot icons](https://www.google.com/search?q=python draw small robot icons)
+- [python draw small robot icons](https://www.google.com/search?q=python+draw+small+robot+icons)
 - [Robot icons | Stock vector | Colourbox](https://www.colourbox.com/vector/robot-icons-vector-31838991)
 - [Turtle examples](https://michael0x2a.com/blog/turtle-examples)
 - [Turtle — Turtle graphics — Python 3.9.6 documentation](https://docs.python.org/3/library/turtle.html)
