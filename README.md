@@ -195,6 +195,9 @@ socket in place and move from there.
 <img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="parte-oid" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="lanwangir-in" src="docs/photos/IMG_20210705_174925.640.jpg">
 <img width="200px" alt="waya-cox-omat" src="docs/photos/IMG_20210705_174929_640.jpg"> <img width="200px" alt="gexgurrir-o-mat" src="docs/photos/IMG_20210705_174938_640.jpg"> <img width="200px" alt="lunvirer-tron" src="docs/photos/IMG_20210705_174941_640.jpg">
 
+# Compilation
+Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
+
 # References
 
 These references consist of a near record of my browsing
@@ -224,6 +227,8 @@ history during this project, plus a few select links.
 - [Bluetooth Low Energy (BLE) identifier reference | diyActive](https://reelyactive.github.io/ble-identifier-reference.html)
 - [Welcome to The Public Listing For IEEE Standards Registration Authority](https://regauth.standards.ieee.org/standards-ra-web/pub/view.html#registries)
 - [00:60:80](https://macaddresschanger.com/bluetooth-mac-lookup/00%3A60%3A80)
+- [Arduino ESP32 WiFi Scanner](https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFi/examples/WiFiScan/WiFiScan.ino)
+
 - [Neologisms of Stanislaw Lem - Wikibooks, open books for an open world](https://en.wikibooks.org/wiki/Neologisms_of_Stanislaw_Lem)
 - [Harald Bluetooth - Wikipedia](https://en.wikipedia.org/wiki/Harald_Bluetooth)
 - [Adafruit_SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
@@ -317,3 +322,4 @@ history during this project, plus a few select links.
 - [Company Identifiers | Bluetooth® Technology Website](https://www.bluetooth.com/specifications/assigned-numbers/company-identifiers/)
 - [Pixel Robot Generator](http://www.jake.dk/programmering/html/gamlehjemmesider/xnafan/xnafan.net/2010/01/xna-pixel-robots-library/index.html)
 - [Dave Bollinger, Pixel Robot Generator, Wayback Machine](http://web.archive.org/web/20080228054405/http://www.davebollinger.com/works/pixelrobots/)
+- [ESP32 SSD1306 Drawing Rectangles](https://techtutorialsx.com/2020/02/14/esp32-ssd1306-oled-draw-rectangles/)
