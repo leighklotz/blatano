@@ -137,8 +137,6 @@ BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
 only the largest three are useful, so after a brief population survey, I picked
 the range -90 to -80 as medium, with above and below falling to the other two sizes.
 
-# Current status
-
 # Drawing Implementation
 Here are samples copied from
 Jake.dk's copy of Dave Bollinger's illustrations, via Archive.org
@@ -191,8 +189,18 @@ case, at least not with the USB programming cable, so I have only
 mocked it up a bit.  Once the code is done, I'll solder the USB power
 socket in place and move from there.
 
-# Screen Sample
-![](docs/PixelRobots/tibiyur.jpg)
+# Screen Samples
+<img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="parte-oid" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="lanwangir-in" src="docs/photos/IMG_20210705_174925.640.jpg">
+<img width="200px" alt="waya-cox-omat" src="docs/photos/IMG_20210705_174929_640.jpg"> <img width="200px" alt="gexgurrir-o-mat" src="docs/photos/IMG_20210705_174938_640.jpg"> <img width="200px" alt="lunvirer-tron" src="docs/photos/IMG_20210705_174941_640.jpg">
+
+# Compilation
+Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
+
+# Current status
+
+- Need to attach leads to provide power through USB-C breakot.
+- Need to attach to case and route cables.
+- How to plan for update in case? No?
 
 # References
 
@@ -223,6 +231,8 @@ history during this project, plus a few select links.
 - [Bluetooth Low Energy (BLE) identifier reference | diyActive](https://reelyactive.github.io/ble-identifier-reference.html)
 - [Welcome to The Public Listing For IEEE Standards Registration Authority](https://regauth.standards.ieee.org/standards-ra-web/pub/view.html#registries)
 - [00:60:80](https://macaddresschanger.com/bluetooth-mac-lookup/00%3A60%3A80)
+- [Arduino ESP32 WiFi Scanner](https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFi/examples/WiFiScan/WiFiScan.ino)
+
 - [Neologisms of Stanislaw Lem - Wikibooks, open books for an open world](https://en.wikibooks.org/wiki/Neologisms_of_Stanislaw_Lem)
 - [Harald Bluetooth - Wikipedia](https://en.wikipedia.org/wiki/Harald_Bluetooth)
 - [Adafruit_SSD1306](https://github.com/adafruit/Adafruit_SSD1306)
@@ -250,7 +260,7 @@ history during this project, plus a few select links.
 - [pixel art 8 bit robot - Google Search](https://www.google.com/search?q=pixel+art+8+bit+robot)
 - [free robot icon 32 pixel - Google Search](https://www.google.com/search?q=free%20robot%20icon%2032%20pixel)
 - [Robot Icons - 23,270 free vector icons](https://www.flaticon.com/free-icons/robot)
-- [python draw small robot icons](https://www.google.com/search?q=python draw small robot icons)
+- [python draw small robot icons](https://www.google.com/search?q=python+draw+small+robot+icons)
 - [Robot icons | Stock vector | Colourbox](https://www.colourbox.com/vector/robot-icons-vector-31838991)
 - [Turtle examples](https://michael0x2a.com/blog/turtle-examples)
 - [Turtle — Turtle graphics — Python 3.9.6 documentation](https://docs.python.org/3/library/turtle.html)
@@ -316,3 +326,4 @@ history during this project, plus a few select links.
 - [Company Identifiers | Bluetooth® Technology Website](https://www.bluetooth.com/specifications/assigned-numbers/company-identifiers/)
 - [Pixel Robot Generator](http://www.jake.dk/programmering/html/gamlehjemmesider/xnafan/xnafan.net/2010/01/xna-pixel-robots-library/index.html)
 - [Dave Bollinger, Pixel Robot Generator, Wayback Machine](http://web.archive.org/web/20080228054405/http://www.davebollinger.com/works/pixelrobots/)
+- [ESP32 SSD1306 Drawing Rectangles](https://techtutorialsx.com/2020/02/14/esp32-ssd1306-oled-draw-rectangles/)
