@@ -194,17 +194,17 @@ socket in place and move from there.
 # Screen Samples
 ![](docs/PixelRobots/tibiyur.jpg)
 
-![](docs/photos/IMG_20210705_174908_640.jpg
+![](docs/photos/IMG_20210705_174908_640.jpg)
 
-![](docs/photos/IMG_20210705_174922_640.jpg
+![](docs/photos/IMG_20210705_174922_640.jpg)
 
-![](docs/photos/IMG_20210705_174925.640.jpg
+![](docs/photos/IMG_20210705_174925.640.jpg)
 
-![](docs/photos/IMG_20210705_174929_640.jpg
+![](docs/photos/IMG_20210705_174929_640.jpg)
 
-![](docs/photos/IMG_20210705_174938_640.jpg
+![](docs/photos/IMG_20210705_174938_640.jpg)
 
-![](docs/photos/IMG_20210705_174941_640.jpg
+![](docs/photos/IMG_20210705_174941_640.jpg)
 
 # References
 
