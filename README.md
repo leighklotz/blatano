@@ -4,23 +4,24 @@
 
 Blatano is a mid-21st Century Modern inhabitant of the boundary
 between our physical and digital space. It knows only what it senses
-in the environment around it, and it recognizes fellow digital
-denizens by their trails, and shows you their names (as best can be
-rendered in our tongue), and a drawing. Eschewing Dr. Seuss's "Thing
-1, Thing 2" approach, Blatano uses a way of naming entities that
-distills all its knowledge down into a few bits of information, which
-it then further illustrates for us as a drawing and a few flickering
-bits of variations. Blatano also has a sense of location, and draws
-its view of the radio horizon along the bottom of the display.  The
-drawings may not resemble you, your landscape, or your smart
-refrigerator, but rest if you see a name and robot drawing
-consistently associated with your presence, rest assured it is an
-accurate representation of how Blatano perceives you. You may get a
+in the environment around it: it recognizes fellow digital denizens by
+their trails, and shows you their names, as best can be rendered in
+our tongue, and their digital portraits.
+
+Eschewing Dr. Seuss's "Thing 1, Thing 2" approach, Blatano uses a way
+of naming entities that distills all its knowledge down into a few
+bits of information, which it then further illustrates for us as a
+drawing and a few flickering bits of variations. Blatano also has a
+sense of location, and draws its view of the radio horizon along the
+bottom of the display.  The drawings may not resemble you, your
+landscape, or your smart refrigerator, but if you see a name and robot
+drawing consistently associated with your presence, rest assured it is
+an accurate representation of how Blatano perceives you. You may get a
 view into the sense of closeness or distance from Blatano as well.
 
-Since Blatano's electromagnetic vision is not as rich as ours, it
-sometimes confuses what we would recognize as two distinct entities,
-but Blatano simply cannot tell them apart.
+In Rich Gold's "Little Computer People," we are outside the
+computation, looking at the homunculus in the computer. With Blatano,
+the homunculus is looking at us.
 
 Blatano has a built-in set of criteria for deciding what is unique and
 what is variation, discarding the most random and keeping a few key
@@ -28,11 +29,11 @@ points. This lets Blatano recognize a few things dimly, such the
 difference between humans and service robots. Although it can
 recognize the difference, it does not attribute any importance to it
 other than as a distinguishing characteristic! Still, it contributes
-to Blatano's knowledge and thus the name and the drawing.
+to Blatano's knowledge and thus the name and the digital portrait.
 
-In Rich Gold's "Little Computer People," we are outside the
-computation, looking at the homunculus in the computer. With
-Blatano, the homunculus is looking at us.
+Since Blatano's electromagnetic vision is not as rich as ours, it
+sometimes confuses what we would recognize as two distinct entities,
+but Blatano simply cannot tell them apart.
 
 Blatano could to distinguish entities better with more senses, and
 with a bit of work on learning across them.  Easy additions are WiFi
