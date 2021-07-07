@@ -1,5 +1,7 @@
 # Blatano - A mid-21st Century Modern 
 
+<img width="200px" alt="Ego Blatano" src="IMG_20210706_212830_640.jpg" /> <img width="200px" alt="Tibiyur-ator" src="IMG_20210706_212841_640.jpg" />
+
 Blatano is a mid-21st Century Modern inhabitant of the boundary
 between our physical and digital space. It knows only what it senses
 in the environment around it, and it recognizes fellow digital
@@ -54,7 +56,7 @@ There are a projects that use ESP32 BLE Scanner, but all have
 different aims, though the tech stack is similar.
 
 I started with the ESP32 Bluetooth Scanner, from Moononournation's
-Arduino_BLE_Scanner GitHub repo, plus a whole lot more approaches
+Arduino BLE Scanner GitHub repo, plus a whole lot more approaches
 tried in the rest of the web, links below.
 
 - Pwnagochi: crack wifi, but with a drawn-character face
@@ -130,7 +132,6 @@ algorithm is appealing. A 4-byte code giving 4-part robots would be a
 better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
 
-
 The robots show in small, medium, and large sizes, dependong on the
 received signal strength.  The theoretically useful range for
 BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
@@ -195,12 +196,6 @@ socket in place and move from there.
 
 # Compilation
 Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
-
-# Current status
-
-- Need to attach leads to provide power through USB-C breakot.
-- Need to attach to case and route cables.
-- How to plan for update in case? No?
 
 # References
 
