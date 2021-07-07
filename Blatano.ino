@@ -84,6 +84,7 @@ void setup() {
   Serial.begin(115200);
 
   display.init();
+  display.flipScreenVertically();
   display.setContrast(255);
   display.clear();
   display.display();
