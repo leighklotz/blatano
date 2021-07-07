@@ -94,7 +94,7 @@ name and the drawing.
 
 # Naming
 
-For naming, I had the idea to generate robot names from a syllibary
+For naming, I had the idea to generate robot names from a syllabary
 and three or four syllables and suffixes, plus memories of Stanislaw
 Lem's novels, in English translation for the suffixes.
 
