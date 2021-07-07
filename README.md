@@ -47,7 +47,7 @@ or embedding? TF-IDF? Who knows, maybe you?
 
 Enjoy Blatano.
 
-# Hardware and Tech Stack
+# Behind the Scenes
 Blatano converts the Bluetooth and WiFi packets it can read into an small
 amount of data, an information summary with everything it can remember
 about the entity it is hearing from.
@@ -179,16 +179,8 @@ wind up using the lenses, and I hope nobody ever wants a viewfinder
 lens for some old camera that time forgot and Wollensak still had in stock.
 
 I settled on a 35mm slide viewer, Focal brand, from a craft seller.
-So far I've avoided modifying it, but eventually I will need to
-provide cable egress. Two AA slots are available, but I'd prefer to go
-with external USB cable.  For this, I have a USB-C internal adapter
-and a short USB-C to USB-A cable.
-
-For display and ESP32 CPU, I checked out to see what Adafruit has, but at
-the time nothing this small. It doesn't quite fit in the slide viewer
-case, at least not with the USB programming cable, so I have only
-mocked it up a bit.  Once the code is done, I'll solder the USB power
-socket in place and move from there.
+It had battery damage inside, and added an extenrnally-accessible USB-C
+connector for power, with a matching cable.
 
 # Screen Samples
 <img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="parte-oid" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="lanwangir-in" src="docs/photos/IMG_20210705_174925.640.jpg">
