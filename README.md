@@ -47,6 +47,8 @@ or embedding? TF-IDF? Who knows, maybe you?
 
 Enjoy Blatano.
 
+<hr />
+
 # Behind the Scenes
 Blatano converts the Bluetooth and WiFi packets it can read into an small
 amount of data, an information summary with everything it can remember
