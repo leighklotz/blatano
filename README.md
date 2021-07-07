@@ -2,7 +2,6 @@
 
 <img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210706_212830_640.jpg" /> <img width="200px" alt="Tibiyur-ator" src="docs/photos/IMG_20210706_212841_640.jpg" />
 
-<div style="margin-left: 10%; margin-right: 10%">
 Blatano is a mid-21st Century Modern inhabitant of the boundary
 between our physical and digital space. It knows only what it senses
 in the environment around it, and it recognizes fellow digital
@@ -47,7 +46,6 @@ instead of using a simple naming scheme for their values. Some sort of clusterin
 or embedding? TF-IDF? Who knows, maybe you?
 
 Enjoy Blatano.
-</div>
 
 # Behind the Scenes
 Blatano converts the Bluetooth and WiFi packets it can read into an small
