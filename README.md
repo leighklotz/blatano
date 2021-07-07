@@ -1,6 +1,6 @@
 # Blatano - A mid-21st Century Modern 
 
-<img width="200px" alt="Ego Blatano" src="IMG_20210706_212830_640.jpg" /> <img width="200px" alt="Tibiyur-ator" src="IMG_20210706_212841_640.jpg" />
+<img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210706_212830_640.jpg" /> <img width="200px" alt="Tibiyur-ator" src="docs/photos/IMG_20210706_212841_640.jpg" />
 
 Blatano is a mid-21st Century Modern inhabitant of the boundary
 between our physical and digital space. It knows only what it senses
