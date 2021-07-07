@@ -1,5 +1,9 @@
 /*
- * Leigh Klotz <klotz@klotz.me> ESP32 Bluetooth Friend "Blatano"
+ * Leigh Klotz <klotz@klotz.me> ESP32 Bluetooth Friend "Blatano" for Steve Harrison
+ * Completed Tue 06 Jul 2021 09:06:16 PM PDT
+ * https://github.com/leighklotz/blatano
+ *
+ *
  * Bluetooth scanner based on Neil Kolban example for IDF
  * - https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleScan.cpp 
  * - Ported to Arduino ESP32 by Evandro Copercini
