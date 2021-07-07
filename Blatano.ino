@@ -43,6 +43,8 @@ BLEScan* pBLEScan;
 #define D3 OLED_SDA
 #define D5 OLED_SCL
 
+static const char *COPYRIGHT="Leigh Klotz <klotz@klotz.me> 2021-07-07 ESP32 Bluetooth Friend \"Blatano\" for Steve Harrison";
+
 // Initialize the OLED display using Wire library
 // https://github.com/Xinyuan-LilyGO/LilyGo-W5500-Lite/tree/master/libdeps/esp8266-oled-ssd1306
 // installed from Arduino IDE ThingPulse, Fabrice Weinberg v 4.2.0
