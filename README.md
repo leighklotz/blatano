@@ -1,5 +1,7 @@
 # Blatano - A mid-21st Century Modern 
 
+<img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210706_212830_640.jpg" /> <img width="200px" alt="Tibiyur-ator" src="docs/photos/IMG_20210706_212841_640.jpg" />
+
 Blatano is a mid-21st Century Modern inhabitant of the boundary
 between our physical and digital space. It knows only what it senses
 in the environment around it, and it recognizes fellow digital
@@ -45,7 +47,9 @@ or embedding? TF-IDF? Who knows, maybe you?
 
 Enjoy Blatano.
 
-# Hardware and Tech Stack
+---
+
+# Behind the Scenes
 Blatano converts the Bluetooth and WiFi packets it can read into an small
 amount of data, an information summary with everything it can remember
 about the entity it is hearing from.
@@ -54,7 +58,7 @@ There are a projects that use ESP32 BLE Scanner, but all have
 different aims, though the tech stack is similar.
 
 I started with the ESP32 Bluetooth Scanner, from Moononournation's
-Arduino_BLE_Scanner GitHub repo, plus a whole lot more approaches
+Arduino BLE Scanner GitHub repo, plus a whole lot more approaches
 tried in the rest of the web, links below.
 
 - Pwnagochi: crack wifi, but with a drawn-character face
@@ -130,7 +134,6 @@ algorithm is appealing. A 4-byte code giving 4-part robots would be a
 better fit than the 3-part robot, but the loss is not that great, and
 2<sup>24</sup> robot drawings ought to be enough for anybody.
 
-
 The robots show in small, medium, and large sizes, dependong on the
 received signal strength.  The theoretically useful range for
 BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
@@ -178,16 +181,8 @@ wind up using the lenses, and I hope nobody ever wants a viewfinder
 lens for some old camera that time forgot and Wollensak still had in stock.
 
 I settled on a 35mm slide viewer, Focal brand, from a craft seller.
-So far I've avoided modifying it, but eventually I will need to
-provide cable egress. Two AA slots are available, but I'd prefer to go
-with external USB cable.  For this, I have a USB-C internal adapter
-and a short USB-C to USB-A cable.
-
-For display and ESP32 CPU, I checked out to see what Adafruit has, but at
-the time nothing this small. It doesn't quite fit in the slide viewer
-case, at least not with the USB programming cable, so I have only
-mocked it up a bit.  Once the code is done, I'll solder the USB power
-socket in place and move from there.
+It had battery damage inside, and added an extenrnally-accessible USB-C
+connector for power, with a matching cable.
 
 # Screen Samples
 <img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="parte-oid" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="lanwangir-in" src="docs/photos/IMG_20210705_174925.640.jpg">
@@ -195,12 +190,6 @@ socket in place and move from there.
 
 # Compilation
 Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
-
-# Current status
-
-- Need to attach leads to provide power through USB-C breakot.
-- Need to attach to case and route cables.
-- How to plan for update in case? No?
 
 # References
 
