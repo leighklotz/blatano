@@ -29,7 +29,11 @@ points. This lets Blatano recognize a few things dimly, such the
 difference between humans and service robots. Although it can
 recognize the difference, it does not attribute any importance to it
 other than as a distinguishing characteristic! Still, it contributes
-to Blatano's knowledge and thus the name and the digital portrait.
+to Blatano's knowledge and thus the name and the digital portrait.  
+It would be interesting to hear if you can strongly associate any 
+name or set of names with a person, or other entity.  For my part,
+I believe Blatano calls my refrigerator "Partare-oid" and I think it has a cute
+face.
 
 Since Blatano's electromagnetic vision is not as rich as ours, it
 sometimes confuses what we would recognize as two distinct entities,
@@ -191,6 +195,13 @@ connector for power, with a matching cable.
 
 # Compilation
 Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
+
+# Development
+Development took place on Ubuntu Linux on Intel CPU, Ardunio IDE 1.8.15, Emacs 36.3, git and GitHub.  Some initial algorithm development was done in Python, Processing (Java), and C before final Arduino C++ coding began.  Data analysis was done in Python.
+
+# Project History
+Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarizzzed here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
+
 
 # References
 
