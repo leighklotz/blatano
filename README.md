@@ -231,6 +231,14 @@ Development took place on Ubuntu Linux on Intel CPU, Arduino IDE 1.8.15, Emacs 3
 # Compilation
 Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
 
+The main files are
+- `Blatano.*`: The main Blatano application
+- `PixelRobot.*`: Drawing PixelRobot, containing Dave Bollinger's code.
+- `drawing.*`: Adapter for drawing layer for PixelRobot to ESP32 OLED SSD1306 library
+- `names.*`: Robot name algorithm
+- Remaining `*.h` files: XBM images for icons and QR code
+- `docs`: experiments and orignal code before Arduino version
+
 # Project History
 Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarizzed here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
 
