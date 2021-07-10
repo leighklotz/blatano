@@ -5,19 +5,19 @@
 Blatano is a mid-21st Century Modern inhabitant of the boundary
 between our physical and digital space. It knows only what it senses
 in the environment around it: it recognizes fellow digital denizens by
-their trails, and shows you their names, as best can be rendered in
-our tongue, and their digital portraits.
+their electronic, radio, and digital trails.  For our benefit, it shows
+their names and their digital portraits.
 
 Eschewing Dr. Seuss's "Thing 1, Thing 2" approach, Blatano uses a way
 of naming entities that distills all its knowledge down into a few
 bits of information, which it then further illustrates for us as a
-drawing and a few flickering bits of variations. Blatano also has a
+drawing and a name. Blatano also has a
 sense of location, and draws its view of the radio horizon along the
 bottom of the display.  The drawings may not resemble you, your
 landscape, or your smart refrigerator, but if you see a name and robot
 drawing consistently associated with your presence, rest assured it is
-an accurate representation of how Blatano perceives you. You may get a
-view into the sense of closeness or distance from Blatano as well.
+an accurate representation of how Blatano perceives you. The size of the drawing
+The sense of drawing indicates the distance from Blatano as well.
 
 In Rich Gold's "Little Computer People," we are outside the
 computation, looking at the homunculus in the computer. With Blatano,
@@ -25,11 +25,12 @@ the homunculus is looking at us.
 
 Blatano has a built-in set of criteria for deciding what is unique and
 what is variation, discarding the most random and keeping a few key
-points. This lets Blatano recognize a few things dimly, such the
+points. This lets Blatano distinguish things dimly, such the
 difference between humans and service robots. Although it can
 recognize the difference, it does not attribute any importance to it
 other than as a distinguishing characteristic! Still, it contributes
 to Blatano's knowledge and thus the name and the digital portrait.  
+
 It would be interesting to hear if you can strongly associate any 
 name or set of names with a person, or other entity.  For my part,
 I believe Blatano calls my refrigerator "Partare-oid" and I think it has a cute
@@ -40,15 +41,16 @@ sometimes confuses what we would recognize as two distinct entities,
 but Blatano simply cannot tell them apart.
 
 Blatano could to distinguish entities better with more senses, and
-with a bit of work on learning across them.  Easy additions are WiFi
-for a sense of place, light brightness to know when it's dark, Lidar
-distance to know if something is approaching, acceleration to
-determine orientation, an internal clock for tracking time, even a
-GPS!  Feel free to experiment and add some of these senses.
+with a bit of work on learning across them. Easy additions are a
+light sensor to know when it is dark, Lidar distance to know if something
+is approaching, acceleration to determine orientation, an internal 
+clock for tracking time, even a GPS!  
 
-Once Blatano has more senses, we'll need to figure out how to associate their values
-instead of using a simple naming scheme for their values. Some sort of clustering
-or embedding? TF-IDF? Who knows, maybe you?
+Feel free to experiment and add some of these senses.
+
+Once Blatano has more senses, we'll need to figure out how to associate values across dimensions and name and 
+cluster objects at that level instead of using a simple naming scheme for their values. Some sort of clustering
+or embedding? Who knows, maybe you?
 
 Enjoy Blatano.
 
@@ -70,10 +72,6 @@ tried in the rest of the web, links below.
 - Hash Monster: crack wifi
 - CovidSniffer: nearby covid beacon counter
 
-Landscape at the bottom of the screen is an abbreviated 2.4 GHz WiFi
-channel spectrum graph showing the signals on each channel. Multiple
-APs of the same channel with similar signal strength aren't distinguishable.
-
 # Sensing
 
 BLE entity sensing for the ESP32 all comes from the same place.  There
@@ -84,17 +82,42 @@ discard, and which to pick apart with bit tweezers; decide how long
 you keep data or counts in memory, given that iPhones change their
 Bluetooth MAC address every 20 minutes.
 
+The Landscape at the bottom of the screen is an abbreviated 2.4 GHz WiFi
+channel spectrum graph showing the signals on each channel. Multiple
+APs of the same channel with similar signal strength aren't distinguishable,
+but ones of different strength are.  This landscape could represent a place.
+Blatano does not make use of this sense of
+place, but coupled with memory of the entity ids (v.i.), could start associating
+them with places.
+
 # Representation
 
 Recognized entities are given a 32-bit number, which is then the
-"memory" of the entity.
+"memory" of the entity.  The processes that distill the sense data
+into the "entity id" are necessarily lossy.  
+
+The display and naming
+are also lossy so, Blatano's representation is richer than it can show us,
+but poorer than what it has sensed.  The current entity recognition and representation
+is based on a simple ad hoc algorithm with hand-tuned features.  An unsupervised
+ML clusterer should also be possible, given the constraints that there is 100% uniform
+randomness injected at roughly 20 minute timescales, so distinguishing two entities across
+such time boundaries will be difficult without some explicit feature or enough data
+to learn over large time scales.  
+
+For now, we use numeric features and a simple hash, and each feature used is hand tuned
+to obtain the least number of random elements.  The objects already have independent
+references from the BLE scan, so we have already separated them, but our task is to give each
+recognized object a different name, even if we can only tell that they are different but not in what way.
+For example, two objects with different random mac adddresses and the same signal strength are
+otherwise indistinguishable, so we simply give them a serial number based on when they were encountered in the BLE scan.
 
 To turn the sensory data into a 32-bit number, I used the CRC32C
 algorithm to turn any amount of data into a 32-bit number.  In this
 step, we also discard information.  The process of hashing a bigger
-piece of data into a 32-bit number is necessarily lossy. of it to turn
-it into a key, or an internal name, from which we then generate the
-name and the drawing.
+piece of data into a 32-bit number is necessarily lossy. We use this "entity id"
+as the entire memory representation of an object.  From there, we can 
+from which we then generate the name and the drawing.  
 
 # Naming
 
@@ -134,16 +157,18 @@ appropriate for tiny 64x64 square monochrome pixels. Eventually I
 found Jake.dk's copy of Dave Bollinger's Pixel Robot Generator. It's a
 clever hack to generate passable robots from a 24-bit number by using
 symmetry, a simple template, and a lightweight edge-tracing
-algorithm. Unfortunately, the code is not useful (ancient C#), but the
-algorithm is appealing. A 4-byte code giving 4-part robots would be a
+algorithm. Unfortunately, the code from Jake.dk itself is not useful
+to me (ancient C#), but the algorithm is appealing and so I decided to keep looking for the original
+Dave Bollinger code.  A 4-byte code giving 4-part robots would be a
 better fit than the 3-part robot, but the loss is not that great, and
-2<sup>24</sup> robot drawings ought to be enough for anybody.
+2²⁴ robot drawings ought to be enough for anybody.
 
 The robots show in small, medium, and large sizes, dependong on the
 received signal strength.  The theoretically useful range for
 BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
 only the largest three are useful, so after a brief population survey, I picked
 the range -90 to -80 as medium, with above and below falling to the other two sizes.
+I collected some data and used Python pandas to analyze it, and decided on the bins.
 
 # Drawing Implementation
 Here are samples copied from
@@ -165,12 +190,15 @@ other hand, drawing each bit in the template as a 5x square isn't hard
 either, and no need to make a big table or store an image on Flash.
 
 ## PixelRobots Processing code
-I found Dave Bollonger's original Processing code as well, on the WayBack Machine
+I finally found Dave Bollinger's original Processing code on the WayBack Machine
 link from Jake.dk. It's copied into the docs/PixelRobots/ directory.
 If you remove one framerate config setting, it runs in Processing today.
 
-# Physical Embodiment
+I converted it to generate just one robot instead of drawing a tiled panorama
+of multiple sizes, and you can see that code in docs/PixelRobotsTest/ directory.
+From here, it was a straight shot porting the Java code to Arduino C++!
 
+# Physical Embodiment
 I wanted some type of Brazil-like TV display with a magnifying lens in
 front. During the project, some small 3D printed TV holders for ESP32
 with display turned up, but since I still can't do 3D printing, I
@@ -186,28 +214,33 @@ wind up using the lenses, and I hope nobody ever wants a viewfinder
 lens for some old camera that time forgot and Wollensak still had in stock.
 
 I settled on a 35mm slide viewer, Focal brand, from a craft seller.
-It had battery damage inside, and added an extenrnally-accessible USB-C
-connector for power, with a matching cable.
+It had battery damage inside. 
+
+I tried a variety of mounting solutions and settled on a few small cuts
+to fit boards and connectors through.  I added an extenrnally-accessible USB-C
+connector for power, with a matching cable, designed for single use.  
+
+Photos of Blatano are shown at the top of the page.
 
 # Screen Samples
+Here are close-ups of OLED display showing a variety of robots.
+
 <img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="parte-oid" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="lanwangir-in" src="docs/photos/IMG_20210705_174925.640.jpg">
 <img width="200px" alt="waya-cox-omat" src="docs/photos/IMG_20210705_174929_640.jpg"> <img width="200px" alt="gexgurrir-o-mat" src="docs/photos/IMG_20210705_174938_640.jpg"> <img width="200px" alt="lunvirer-tron" src="docs/photos/IMG_20210705_174941_640.jpg">
-
-# Compilation
-Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
 
 # Development
 Development took place on Ubuntu Linux on Intel CPU, Ardunio IDE 1.8.15, Emacs 36.3, git and GitHub.  Some initial algorithm development was done in Python, Processing (Java), and C before final Arduino C++ coding began.  Data analysis was done in Python.
 
+# Compilation
+Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
+
 # Project History
 Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarizzzed here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
-
 
 # References
 
 These references consist of a near record of my browsing
 history during this project, plus a few select links.
-
 
 - [Scuttle Blatano](https://scuttle.klotz.me/search/all/Blatano)
 - [Arduino](https://arduino.cc)
