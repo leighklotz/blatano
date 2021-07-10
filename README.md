@@ -61,7 +61,7 @@ Blatano converts the Bluetooth and WiFi packets it can read into an small
 amount of data, an information summary with everything it can remember
 about the entity it is hearing from.
 
-There are a projects that use ESP32 BLE Scanner, but all have
+There are other projects that use ESP32 BLE Scanner, but all have
 different aims, though the tech stack is similar.
 
 I started with the ESP32 Bluetooth Scanner, from Moononournation's
@@ -109,15 +109,16 @@ For now, we use numeric features and a simple hash, and each feature used is han
 to obtain the least number of random elements.  The objects already have independent
 references from the BLE scan, so we have already separated them, but our task is to give each
 recognized object a different name, even if we can only tell that they are different but not in what way.
-For example, two objects with different random mac adddresses and the same signal strength are
-otherwise indistinguishable, so we simply give them a serial number based on when they were encountered in the BLE scan.
+For example, two objects with different random mac addresses and the same signal strength are
+otherwise indistinguishable, so we simply give them a serial number based on when they were
+encountered in the BLE scan.  Blatano simply confuses one for the other, but knows there are two - or more!
 
 To turn the sensory data into a 32-bit number, I used the CRC32C
 algorithm to turn any amount of data into a 32-bit number.  In this
 step, we also discard information.  The process of hashing a bigger
 piece of data into a 32-bit number is necessarily lossy. We use this "entity id"
 as the entire memory representation of an object.  From there, we can 
-from which we then generate the name and the drawing.  
+then generate the name and the drawing.  
 
 # Naming
 
@@ -163,7 +164,7 @@ Dave Bollinger code.  A 4-byte code giving 4-part robots would be a
 better fit than the 3-part robot, but the loss is not that great, and
 2²⁴ robot drawings ought to be enough for anybody.
 
-The robots show in small, medium, and large sizes, dependong on the
+The robots show in small, medium, and large sizes, depending on the
 received signal strength.  The theoretically useful range for
 BLE is -105 to -60dBm.  Although we have five sizes that will fit the screen,
 only the largest three are useful, so after a brief population survey, I picked
@@ -202,12 +203,12 @@ From here, it was a straight shot porting the Java code to Arduino C++!
 I wanted some type of Brazil-like TV display with a magnifying lens in
 front. During the project, some small 3D printed TV holders for ESP32
 with display turned up, but since I still can't do 3D printing, I
-can't go that route &emdash; it reduces to a previously unsolved
+can't go that route — it reduces to a previously unsolved
 problem.
 
 I ordered some surplus lenses, trying to find some of the surplus
 companies I remembered from years (decades?) ago. Edmund is reliable
-but pricey, but I founmd a place called Surplus Shed that had a good
+but pricey, but I found a place called Surplus Shed that had a good
 deal on small viewfinder-like lenses. When the credit card charge
 came, I was sad to see the name of the seller was Wollensak. I didn't
 wind up using the lenses, and I hope nobody ever wants a viewfinder
@@ -217,7 +218,7 @@ I settled on a 35mm slide viewer, Focal brand, from a craft seller.
 It had battery damage inside. 
 
 I tried a variety of mounting solutions and settled on a few small cuts
-to fit boards and connectors through.  I added an extenrnally-accessible USB-C
+to fit boards and connectors through.  I added an externally-accessible USB-C
 connector for power, with a matching cable, designed for single use.  
 
 Photos of Blatano are shown at the top of the page.
@@ -229,13 +230,13 @@ Here are close-ups of OLED display showing a variety of robots.
 <img width="200px" alt="waya-cox-omat" src="docs/photos/IMG_20210705_174929_640.jpg"> <img width="200px" alt="gexgurrir-o-mat" src="docs/photos/IMG_20210705_174938_640.jpg"> <img width="200px" alt="lunvirer-tron" src="docs/photos/IMG_20210705_174941_640.jpg">
 
 # Development
-Development took place on Ubuntu Linux on Intel CPU, Ardunio IDE 1.8.15, Emacs 36.3, git and GitHub.  Some initial algorithm development was done in Python, Processing (Java), and C before final Arduino C++ coding began.  Data analysis was done in Python.
+Development took place on Ubuntu Linux on Intel CPU, Arduino IDE 1.8.15, Emacs 36.3, git and GitHub.  Some initial algorithm development was done in Python, Processing (Java), and C before final Arduino C++ coding began.  Data analysis was done in Python.
 
 # Compilation
 Use Arduino IDE, ESP32, Huge App 3MB / 1MB Spiffs / No OTA.
 
 # Project History
-Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarizzzed here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
+Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarizzed here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
 
 # References
 
