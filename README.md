@@ -179,16 +179,12 @@ WayBack Machine (Yay, Brewster!) See references for links to originals.
 ## All robot parts, 0x000000 to 0xffffff by increments of 0x010101
 ![](docs/robots_256parts.gif)
 
+The above diagram Dave Bollinger contains all 256*3 robot parts, so just reading those as is and drawing the dots 5x isn't necessarily a bad approach, bitblt notwithstanding. On the other hand, drawing each bit in the template as a 5x square isn't hard either, and there is no need to make a big table or store an image on Flash.
+
 ## Some sample robots
 ![](docs/robots_samples.gif)
 
-These robots are 7x11 pixels, and we have a roughly 64x64 pixel area
-to fill. Scaling 5x to 35x55 seems the best fit, though 4x might be
-easier to implement in some ways.  The above diagrams contain all
-256*3 robot parts, so just reading those as is and drawing the dots 5x
-isn't necessarily a bad approach, bitblt notwithstanding.  On the
-other hand, drawing each bit in the template as a 5x square isn't hard
-either, and no need to make a big table or store an image on Flash.
+These robots in the image also from Dave Bollinger are 7x11 pixels, and we have a roughly 64x64 pixel area to fill. Scaling 5x to 35x55 seems the maxfit.  They’re visible down to 1px but really only 3, 4, and 5 are pleasant. 
 
 ## PixelRobots Processing code
 I finally found Dave Bollinger's original Processing code on the WayBack Machine
@@ -224,7 +220,7 @@ connector for power, with a matching cable, designed for single use.
 Photos of Blatano are shown at the top of the page.
 
 # Screen Samples
-Here are close-ups of OLED display showing a variety of robots.
+Here are close-ups of OLED displays showing a variety of robots.
 
 <img width="200px" alt="Ego Blatano" src="docs/photos/IMG_20210705_174908_640.jpg"> <img width="200px" alt="parte-oid" src="docs/photos/IMG_20210705_174922_640.jpg"> <img width="200px" alt="lanwangir-in" src="docs/photos/IMG_20210705_174925.640.jpg">
 <img width="200px" alt="waya-cox-omat" src="docs/photos/IMG_20210705_174929_640.jpg"> <img width="200px" alt="gexgurrir-o-mat" src="docs/photos/IMG_20210705_174938_640.jpg"> <img width="200px" alt="lunvirer-tron" src="docs/photos/IMG_20210705_174941_640.jpg">
