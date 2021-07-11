@@ -11,13 +11,13 @@ their names and their digital portraits.
 Eschewing Dr. Seuss's "Thing 1, Thing 2" approach, Blatano uses a way
 of naming entities that distills all its knowledge down into a few
 bits of information, which it then further illustrates for us as a
-drawing and a name. Blatano also has a
-sense of location, and draws its view of the radio horizon along the
-bottom of the display. The drawings may not resemble you, your
-landscape, or your smart refrigerator, but if you see a name and robot
-drawing consistently associated with your presence, rest assured it is
-an accurate representation of how Blatano perceives you. The size of the drawing
-indicates the distance from Blatano as well.
+drawing and a name.  The size of the drawing indicates the distance
+from Blatano as well. Blatano also has a sense of location, and draws
+its view of the radio horizon along the bottom of the display. The
+drawings may not resemble you, your landscape, or your smart
+refrigerator, but if you see a name and robot drawing consistently
+associated with your presence, rest assured it is an accurate
+representation of how Blatano perceives you.
 
 In Rich Gold's "Little Computer People," we are outside the
 computation, looking at the homunculus in the computer. With Blatano,
