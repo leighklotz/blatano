@@ -10,11 +10,13 @@ is a better story.  Also the word minifig, from Lego.
 
 2. Travel Map
 I can do no better than verbatim here:
+
 ```Here is a page from a notebook Blatano found on a computer. The drawing
 illustrates the potential for Blatano to display a multitude of data
 about the place of the computer in the landscape. Blatano displays
 electronic data in a map-like way, and a note about a distant place
-that is to be visited by a journeying voyager.```
+that is to be visited by a journeying voyager.
+```
 
 3. Trinary button input eg/beg/say
 As it says, an odd feature that uses some buttons and a strange three-position input.
