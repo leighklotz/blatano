@@ -17,7 +17,7 @@ bottom of the display. The drawings may not resemble you, your
 landscape, or your smart refrigerator, but if you see a name and robot
 drawing consistently associated with your presence, rest assured it is
 an accurate representation of how Blatano perceives you. The size of the drawing
-The sense of drawing indicates the distance from Blatano as well.
+indicates the distance from Blatano as well.
 
 In Rich Gold's "Little Computer People," we are outside the
 computation, looking at the homunculus in the computer. With Blatano,
