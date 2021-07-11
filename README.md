@@ -109,7 +109,7 @@ For now, we use numeric features and a simple hash, and each feature used is han
 to obtain the least number of random elements. The objects already have independent
 references from the BLE scan, so we have already separated them, but our task is to give each
 recognized object a different name, even if we can only tell that they are different but not in what way.
-For example, two objects with different random mac addresses and the same signal strength are
+For example, two objects with different random MAC addresses and the same signal strength are
 otherwise indistinguishable, so we simply give them a serial number based on when they were
 encountered in the BLE scan. Blatano simply confuses one for the other, but knows there are two - or more!
 
