@@ -21,9 +21,11 @@ As it says, an odd feature that uses some buttons and a strange three-position i
 The output seems to be poetry.
 
 4. A new tagline
-```You are "so small and far away" as your Blatano.```
+```You are "so small and far away" as your Blatano.
+```
 
 # Raw text
+
 ```
 RESULT
 Blatano is a mid-21st Century Modern inhabitant of the boundary
