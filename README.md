@@ -44,11 +44,11 @@ Blatano could to distinguish entities better with more senses, and
 with a bit of work on learning across them. Easy additions are a
 light sensor to know when it is dark, Lidar distance to know if something
 is approaching, acceleration to determine orientation, an internal 
-clock for tracking time, even a GPS!  
+clock for tracking time, even a GPS!
 
 Feel free to experiment and add some of these senses.
 
-Once Blatano has more senses, we'll need to figure out how to associate values across dimensions and name and 
+Once Blatano has more senses, we'll need to figure out how to associate values across dimensions and name and
 cluster objects at that level instead of using a simple naming scheme for their values. Some sort of clustering
 or embedding? Who knows, maybe you?
 
@@ -94,7 +94,7 @@ them with places.
 
 Recognized entities are given a 32-bit number, which is then the
 "memory" of the entity. The processes that distill the sense data
-into the "entity id" are necessarily lossy. 
+into the "entity id" are necessarily lossy.
 
 The display and naming
 are also lossy so, Blatano's representation is richer than it can show us,
@@ -103,7 +103,7 @@ is based on a simple ad hoc algorithm with hand-tuned features. An unsupervised
 ML clusterer should also be possible, given the constraints that there is 100% uniform
 randomness injected at roughly 20 minute timescales, so distinguishing two entities across
 such time boundaries will be difficult without some explicit feature or enough data
-to learn over large time scales. 
+to learn over large time scales.
 
 For now, we use numeric features and a simple hash, and each feature used is hand tuned
 to obtain the least number of random elements. The objects already have independent
@@ -117,8 +117,8 @@ To turn the sensory data into a 32-bit number, I used the CRC32C
 algorithm to turn any amount of data into a 32-bit number. In this
 step, we also discard information. The process of hashing a bigger
 piece of data into a 32-bit number is necessarily lossy. We use this "entity id"
-as the entire memory representation of an object. From there, we can 
-then generate the name and the drawing. 
+as the entire memory representation of an object. From there, we can
+then generate the name and the drawing.
 
 # Naming
 
@@ -184,7 +184,7 @@ The above diagram Dave Bollinger contains all 256*3 robot parts, so just reading
 ## Some sample robots
 ![](docs/robots_samples.gif)
 
-These robots in the image also from Dave Bollinger are 7x11 pixels, and we have a roughly 64x64 pixel area to fill. Scaling 5x to 35x55 seems the maxfit. They’re visible down to 1px but really only 3, 4, and 5 are pleasant. 
+These robots in the image also from Dave Bollinger are 7x11 pixels, and we have a roughly 64x64 pixel area to fill. Scaling 5x to 35x55 seems the maxfit. They’re visible down to 1px but really only 3, 4, and 5 are pleasant.
 
 ## PixelRobots Processing code
 I finally found Dave Bollinger's original Processing code on the WayBack Machine
@@ -211,11 +211,11 @@ wind up using the lenses, and I hope nobody ever wants a viewfinder
 lens for some old camera that time forgot and Wollensak still had in stock.
 
 I settled on a 35mm slide viewer, Focal brand, from a craft seller.
-It had battery damage inside. 
+It had battery damage inside.
 
 I tried a variety of mounting solutions and settled on a few small cuts
 to fit boards and connectors through. I added an externally-accessible USB-C
-connector for power, with a matching cable, designed for single use. 
+connector for power, with a matching cable, designed for single use.
 
 Photos of Blatano are shown at the top of the page.
 
