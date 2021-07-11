@@ -25,11 +25,11 @@ the homunculus is looking at us.
 
 Blatano has a built-in set of criteria for deciding what is unique and
 what is variation, discarding the most random and keeping a few key
-points. This lets Blatano distinguish things dimly, such the
+points. These criteria let Blatano distinguish things dimly, such the
 difference between humans and service robots. Although it can
 recognize the difference, it does not attribute any importance to it
 other than as a distinguishing characteristic! Still, it contributes
-to Blatano's knowledge and thus the name and the digital portrait.  
+to Blatano's knowledge and thus the name and the digital portrait.
 
 It would be interesting to hear if you can strongly associate any 
 name or set of names with a person, or other entity.  For my part,
