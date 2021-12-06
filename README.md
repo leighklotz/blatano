@@ -40,7 +40,7 @@ Since Blatano's electromagnetic vision is not as rich as ours, it
 sometimes confuses what we would recognize as two distinct entities,
 but Blatano simply cannot tell them apart.
 
-Blatano could to distinguish entities better with more senses, and
+Blatano could distinguish entities better with more senses, and
 with a bit of work on learning across them. Easy additions are a
 light sensor to know when it is dark, Lidar distance to know if something
 is approaching, acceleration to determine orientation, an internal 
@@ -179,7 +179,7 @@ WayBack Machine (Yay, Brewster!) See references for links to originals.
 ## All robot parts, 0x000000 to 0xffffff by increments of 0x010101
 ![](docs/robots_256parts.gif)
 
-The above diagram Dave Bollinger contains all 256*3 robot parts, so just reading those as is and drawing the dots 5x isn't necessarily a bad approach, bitblt notwithstanding. On the other hand, drawing each bit in the template as a 5x square isn't hard either, and there is no need to make a big table or store an image on Flash.
+The above diagram from Dave Bollinger contains all 256*3 robot parts, so just reading those as is and drawing the dots 5x isn't necessarily a bad approach, bitblt notwithstanding. On the other hand, drawing each bit in the template as a 5x square isn't hard either, and there is no need to make a big table or store an image on Flash.
 
 ## Some sample robots
 ![](docs/robots_samples.gif)
@@ -240,7 +240,7 @@ The main files are
 - `docs`: experiments and orignal code before Arduino version
 
 # Project History
-Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarizzed here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
+Aside from the commentary above, the code history back to my last editing hacks testing out the Arduino BLE Scanner example code, is best summarized here: https://github.com/leighklotz/blatano/pulls?q=is%3Apr
 
 # References
 
